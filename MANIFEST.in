@@ -1,0 +1,15 @@
+include requirements.txt requirements.dev.txt requirements.test.txt
+include .coveragerc .travis.yml Makefile Procfile tox.ini .editorconfig
+include LICENSE
+include *.rst
+include *.py
+
+exclude data
+
+recursive-exclude data *.json
+recursive-exclude * __pycache__ *.py[co]
+
+recursive-include tests *
+recursive-include bpz *.py
+recursive-include bpzaroundme *.py
+recursive-include docs *.rst conf.py Makefile make.bat .keep

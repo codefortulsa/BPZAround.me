@@ -1,0 +1,15 @@
+# Requirements for development and packaging
+
+# tox - multi-environment testing
+tox==1.7.2
+
+# check-manifest - Check distutils MANIFEST.in
+check-manifest==0.21
+
+# pyroma - Check distribution
+docutils==0.12
+pyroma==1.6
+
+# Sphinx - documentation
+Pygments==1.6
+Sphinx==1.2.2

@@ -1,0 +1,22 @@
+# Config file for automatic testing at travis-ci.org
+
+language: python
+addons:
+    postgresql: "9.3"
+
+python:
+  - "3.4"
+  - "3.3"
+  - "2.7"
+  - "2.6"
+  - "pypy"
+
+install: pip install -r requirements.txt -r requirements.dev.txt coveralls
+
+before_script:
+    - psql -U postgres -c 'create database bpzaroundme;'
+    - psql -U postgres -c 'create extension if not exists postgis;'
+
+script: python setup.py test
+
+after_success: coveralls
