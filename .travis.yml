@@ -14,10 +14,10 @@ before_script:
 
 script: tox
 env:
-    - TOXENV=py26
-    - TOXENV=py27
-    - TOXENV=py33
-    - TOXENV=py34
+    - TOXENV=py26 POSTGIS_VERSION=2.1.3
+    - TOXENV=py27 POSTGIS_VERSION=2.1.3
+    - TOXENV=py33 POSTGIS_VERSION=2.1.3
+    - TOXENV=py34 POSTGIS_VERSION=2.1.3
     - TOXENV=style
     - TOXENV=docs
 
