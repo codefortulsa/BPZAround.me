@@ -98,9 +98,9 @@ else:
 STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/
-#STATICFILES_DIRS = (
-#    normpath(join(DJANGO_ROOT, 'static')),
-#)
+# STATICFILES_DIRS = (
+#   normpath(join(DJANGO_ROOT, 'static')),
+# )
 
 # List of finder classes that know how to find static files in
 # various locations.
