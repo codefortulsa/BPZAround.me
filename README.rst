@@ -18,7 +18,7 @@ BPZAround.me
 BPZAround.me alerts you when someone is building, planning, or zoning around you.
 
 * Free software: Apache License, Version 2.0
-* Documentation: https://BPZAround.me.readthedocs.org.
+* Documentation: https://bpzaroundme.readthedocs.org
 
 Features
 --------
