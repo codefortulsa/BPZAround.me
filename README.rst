@@ -11,7 +11,7 @@ BPZAround.me
 .. no_image https://pypip.in/d/BPZAround.me/badge.png
         :target: https://pypi.python.org/pypi/BPZAround.me
 
-.. image:: .. https://coveralls.io/repos/codefortulsa/BPZAround.me/badge.png
+.. image:: https://coveralls.io/repos/codefortulsa/BPZAround.me/badge.png
         :target: https://coveralls.io/r/codefortulsa/BPZAround.me
 
 
