@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 from __future__ import print_function
+
+from os import environ
 import sys
 
 from django.conf import settings
@@ -27,6 +29,11 @@ def test_config():
     '''Create a Django configuration for running tests'''
 
     config = base_config()
+
+    if environ.get('POSTGIS_VERSION'):
+        raw_postgis_version = environ['POSTGIS_VERSION']
+        config['POSTGIS_VERSION'] = tuple(
+            int(x) for x in raw_postgis_version.split('.'))
 
     # Optionally update configuration
     try:
