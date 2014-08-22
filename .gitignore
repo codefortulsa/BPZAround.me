@@ -42,5 +42,5 @@ output/*/index.html
 # Sphinx
 docs/_build
 
-# Staticfiles on Heroku
+# Collected staticfiles
 staticfiles
