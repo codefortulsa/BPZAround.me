@@ -1,4 +1,4 @@
-include requirements.txt requirements.dev.txt requirements.test.txt
+include requirements.txt requirements.dev.txt
 include .coveragerc .travis.yml Makefile Procfile tox.ini .editorconfig
 include LICENSE
 include *.rst
