@@ -12,3 +12,7 @@ Jinja2==2.7.3
 
 # Configure database from environment
 dj_database_url==0.3.0
+
+# Serve static files
+static3==0.5.1
+dj-static==0.0.6

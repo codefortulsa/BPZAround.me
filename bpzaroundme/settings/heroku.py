@@ -1,9 +1,6 @@
-from .base import *  # flake8: noqa
+import os
 
-# Parse database configuration for $DATABASE_URL
-import dj_database_url
-# settings for Heroku Postgres DB
-DATABASES['default'] = dj_database_url.config(default='postgres://localhost')
+from .base import *  # flake8: noqa
 
 DEBUG = True
 
@@ -15,4 +12,4 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS += ('gunicorn',)
 
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
