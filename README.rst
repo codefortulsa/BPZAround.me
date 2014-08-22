@@ -2,14 +2,17 @@
 BPZAround.me
 ===============================
 
-.. image:: https://badge.fury.io/py/BPZAround.me.png
+.. no_image https://badge.fury.io/py/BPZAround.me.png
     :target: http://badge.fury.io/py/BPZAround.me
 
 .. image:: https://travis-ci.org/codefortulsa/BPZAround.me.png?branch=master
         :target: https://travis-ci.org/codefortulsa/BPZAround.me
 
-.. image:: https://pypip.in/d/BPZAround.me/badge.png
+.. no_image https://pypip.in/d/BPZAround.me/badge.png
         :target: https://pypi.python.org/pypi/BPZAround.me
+
+.. image:: .. https://coveralls.io/repos/codefortulsa/BPZAround.me/badge.png
+        :target: https://coveralls.io/r/codefortulsa/BPZAround.me
 
 
 BPZAround.me alerts you when someone is building, planning, or zoning around you.
