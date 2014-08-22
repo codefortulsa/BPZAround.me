@@ -1,5 +1,6 @@
-from os.path import abspath, basename, dirname, environ, join, normpath
+from os.path import abspath, basename, dirname, join, normpath
 from sys import path
+import dj_database_url
 
 DJANGO_ROOT = dirname(dirname(abspath(__file__)))
 SITE_NAME = basename(DJANGO_ROOT)
@@ -15,11 +16,14 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gid.db.backends.postgis',
-        'NAME': 'bpzaroundme',
-        'USER': 'bpzaroundme',
-    }
+    'default': dj_database_url.config(
+        default='postgis://bpzaroundme@/bpzaroundme'),
+    # Equivalent to:
+    # 'default': {
+    #     'ENGINE': 'django.contrib.gid.db.backends.postgis',
+    #     'NAME': 'bpzaroundme',
+    #     'USER': 'bpzaroundme',
+    # }
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -156,11 +160,6 @@ LOGGING = {
         },
     }
 }
-
-# Set POSTGIS_VERSION in Travis CI
-if environ.get('POSTGIS_VERSION'):
-    raw_postgis_version = environ['POSTGIS_VERSION']
-    POSTGIS_VERSION = tuple(int(x) for x in raw_postgis_version.split('.'))
 
 # Use django-nose to run tests
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

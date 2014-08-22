@@ -14,10 +14,10 @@ before_script:
 
 script: tox
 env:
-    - TOXENV=py26 POSTGIS_VERSION=2.1.3
-    - TOXENV=py27 POSTGIS_VERSION=2.1.3
-    - TOXENV=py33 POSTGIS_VERSION=2.1.3
-    - TOXENV=py34 POSTGIS_VERSION=2.1.3
+    - TOXENV=py26 DATABASE_URL="postgis://postgres@/bpzaroundme"
+    - TOXENV=py27 DATABASE_URL="postgis://postgres@/bpzaroundme"
+    - TOXENV=py33 DATABASE_URL="postgis://postgres@/bpzaroundme"
+    - TOXENV=py34 DATABASE_URL="postgis://postgres@/bpzaroundme"
     - TOXENV=style
     - TOXENV=docs
 
