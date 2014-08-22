@@ -2,6 +2,7 @@
 from __future__ import print_function
 
 import sys
+from os import environ
 
 from django.conf import settings
 import dj_database_url
@@ -9,7 +10,7 @@ import dj_database_url
 
 def base_config():
     '''Create a minimal Django configuration'''
-    return {
+    config = {
         'INSTALLED_APPS': ['south', 'django_nose', 'bpz'],
         'TEST_RUNNER': 'django_nose.NoseTestSuiteRunner',
         'DATABASES': {
@@ -19,6 +20,13 @@ def base_config():
         'DEBUG': True,
         'TEMPLATE_DEBUG': True
     }
+
+    if environ.get('POSTGIS_VERSION'):
+        raw_postgis_version = environ['POSTGIS_VERSION']
+        config['POSTGIS_VERSION'] = tuple(
+            int(x) for x in raw_postgis_version.split('.'))
+
+    return config
 
 
 def test_config():

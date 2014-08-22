@@ -1,3 +1,4 @@
+from os import environ
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 import dj_database_url
@@ -163,3 +164,8 @@ LOGGING = {
 
 # Use django-nose to run tests
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Set POSTGIS_VERSION from environment
+if environ.get('POSTGIS_VERSION'):
+    raw_postgis_version = environ['POSTGIS_VERSION']
+    POSTGIS_VERSION = tuple(int(x) for x in raw_postgis_version.split('.'))
