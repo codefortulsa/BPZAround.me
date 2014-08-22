@@ -13,3 +13,4 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS += ('gunicorn',)
 
 SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
+STATIC_ROOT = 'staticfiles'
