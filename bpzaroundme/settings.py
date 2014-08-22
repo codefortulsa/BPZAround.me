@@ -92,7 +92,7 @@ MEDIA_URL = '/media/'
 if environ.get('STATIC_ROOT'):
     STATIC_ROOT = environ['STATIC_ROOT']
 else:
-    STATIC_ROOT = normpath(join(DJANGO_ROOT, 'assets'))
+    STATIC_ROOT = normpath(join(DJANGO_ROOT, 'staticfiles'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
