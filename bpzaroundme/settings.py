@@ -1,3 +1,31 @@
+'''settings for BPZAround.me project
+
+Designed for Heroku and http://12factor.net/config.  Configuration is
+overriden by environment variables.
+
+One way to set environment variables for local development in a virtualenv:
+
+$ vi $VIRTUAL_ENV/bin/postactivate
+export DJANGO_DEBUG=1
+$ vi $VIRTUAL_ENV/bin/predeactivate
+unset DJANGO_DEBUG
+$ source $VIRTUAL_ENV/bin/postactivate
+
+To set environment variables in heroku environment
+$ heroku config
+$ heroku config:set DJANGO_DEBUG=1
+
+Environment variables:
+ALLOWED_HOSTS - comma-separated list of allowed hosts
+DATABASE_URL - See https://github.com/kennethreitz/dj-database-url
+DJANGO_DEBUG - 1 to enable, 0 to disable, default disabled
+EXTRA_INSTALLED_APPS - comma-separated list of apps to add to INSTALLED_APPS
+POSTGIS_VERSION - "2.1.3" to set to version (2, 1, 3)
+SECRET_KEY - Overrides SECRET_KEY
+SECURE_PROXY_SSL_HEADER - "HTTP_X_FORWARDED_PROTOCOL,https" to enable
+STATIC_ROOT - Overrides STATIC_ROOT
+'''
+
 from os import environ
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
@@ -7,7 +35,7 @@ DJANGO_ROOT = dirname(dirname(abspath(__file__)))
 SITE_NAME = basename(DJANGO_ROOT)
 path.append(DJANGO_ROOT)
 
-DEBUG = True
+DEBUG = environ.get("DJANGO_DEBUG", '0') in (1, '1')
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -61,7 +89,10 @@ MEDIA_ROOT = normpath(join(DJANGO_ROOT, 'media'))
 MEDIA_URL = '/media/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = normpath(join(DJANGO_ROOT, 'assets'))
+if environ.get('STATIC_ROOT'):
+    STATIC_ROOT = environ['STATIC_ROOT']
+else:
+    STATIC_ROOT = normpath(join(DJANGO_ROOT, 'assets'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
@@ -79,7 +110,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '777o=$i3ldkg5=ix*a+15n*#$79sxd-((_zemsnilf=#+pldxe'
+SECRET_KEY = environ.get('SECRET_KEY', 'This_one_is_unsafe')
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -105,7 +136,7 @@ TEMPLATE_DIRS = (
     normpath(join(DJANGO_ROOT, 'templates')),
 )
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -120,7 +151,10 @@ INSTALLED_APPS = (
 
     # Our apps
     'bpz',
-)
+]
+if environ.get('EXTRA_INSTALLED_APPS'):
+    INSTALLED_APPS += environ['EXTRA_INSTALLED_APPS'].split(',')
+
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
@@ -165,7 +199,18 @@ LOGGING = {
 # Use django-nose to run tests
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
-# Set POSTGIS_VERSION from environment
+# More overrides from environment
+
+# https://docs.djangoproject.com/en/1.6/ref/contrib/gis/testing/#postgis-version
 if environ.get('POSTGIS_VERSION'):
     raw_postgis_version = environ['POSTGIS_VERSION']
     POSTGIS_VERSION = tuple(int(x) for x in raw_postgis_version.split('.'))
+
+# https://docs.djangoproject.com/en/1.6/ref/settings/#secure-proxy-ssl-header
+if environ.get('SECURE_PROXY_SSL_HEADER'):
+    raw = environ['SECURE_PROXY_SSL_HEADER']
+    SECURE_PROXY_SSL_HEADER = tuple(raw.split(','))
+
+# https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
+if environ.get('ALLOWED_HOSTS'):
+    ALLOWED_HOSTS = environ['ALLOWED_HOSTS'].split(',')

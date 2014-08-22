@@ -83,34 +83,101 @@ Ready to contribute? Here's how to set up `BPZAround.me` for local development.
 
     $ git clone git@github.com:your_name_here/BPZAround.me.git
 
-5. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+5. Install your local copy into a virtualenv. Assuming you have
+   virtualenvwrapper installed, this is how you set up your fork for local
+   development::
 
     $ mkvirtualenv BPZAround.me
     $ cd BPZAround.me/
     $ pip install -r requirements.txt -r requirements.test.txt -r requirements.dev.txt
 
-6. Get your PostGIS database setup::
+6. Setup your local environment::
+
+    $ vi $VIRTUAL_ENV/bin/postactivate  # Add exporting variables
+    $ vi $VIRTUAL_ENV/bin/postactivate  # Unset variables
+    $ source $VIRTUAL_ENV/bin/postactivate  # Apply changes
+
+   Here's a suggested postactivate::
+
+    #!/bin/bash
+    # This hook is run after this virtualenv is activated.
+
+    export DJANGO_DEBUG=1
+    export DATABASE_URL=postgis://bpzaroundme@/bpzaroundme
+
+   And the matching predeactivate::
+
+    #!/bin/bash
+    # This hook is run after this virtualenv is activated.
+
+    unset DJANGO_DEBUG
+    unset DATABASE_URL
+
+   See bpzaroundme/settings.py for additional settings.
+
+7. Get your PostGIS database setup::
 
     $ createuser --createdb --login bpzaroundme
     $ createdb --owner=bpzaroundme --template=template_postgis bpzaroundme
+    $ ./manage.py syncdb  # Setup your superuser as well
 
-7. Create a branch for local development::
+8. Make sure tests work::
+
+   $ ./manage.py test
+
+9. Run it!::
+
+   $ ./manage.py runserver
+
+
+Run on Heroku
+-------------
+
+1. Install the prerequisites for Heroku.  See
+   `Getting Started with Django on Heroku`_ for detailed instructions.
+   Get to the point where you've created your app (after ``heroku create``).
+
+.. _`Getting Started with Django on Heroku`:
+    https://devcenter.heroku.com/articles/getting-started-with-django
+
+2. Configure your app.  Here's a suggested configuration::
+
+   $ heroku config
+   $ heroku config:set DJANGO_DEBUG=1
+   $ heroku config:set SECURE_PROXY_SSL_HEADER="HTTP_X_FORWARDED_PROTO,https"
+   $ heroku config:set ALLOWED_HOSTS=*
+   $ heroku config:set INSTALLED_APPS=gunicorn
+   $ heroku config:set STATIC_ROOT=staticfiles
+   $ heroku config:set SECRET_KEY=`python -c "from django.utils.crypto import get_random_string; print(get_random_string())"`
+
+3. Run it::
+
+   $ heroku ps:scale web=1
+   $ heroku ps    # Verify
+   $ heroku open  # Open in your browser, or
+   $ heroku logs  # See what went wrong
+
+
+
+Make Changes
+------------
+1. Create a branch for local development::
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
    Now you can make your changes locally.
 
-8. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox::
+2. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox::
 
     $ make qa-all
 
-9. Commit your changes and push your branch to GitHub::
+3. Commit your changes and push your branch to GitHub::
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
     $ git push origin name-of-your-bugfix-or-feature
 
-10. Submit a pull request through the GitHub website.
+4. Submit a pull request through the GitHub website.
 
 Pull Request Guidelines
 -----------------------
