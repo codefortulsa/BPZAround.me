@@ -26,6 +26,3 @@ pyroma==1.6
 # Sphinx - documentation
 Pygments==1.6
 Sphinx==1.2.2
-
-# gunicorn - WSGI app runner (similar to Heroku)
-gunicorn==19.1.1
