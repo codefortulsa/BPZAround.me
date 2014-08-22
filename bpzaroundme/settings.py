@@ -114,6 +114,7 @@ SECRET_KEY = environ.get('SECRET_KEY', 'This_one_is_unsafe')
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
+    'jingo.Loader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )

@@ -4,12 +4,15 @@ include LICENSE
 include *.rst
 include *.py
 
-exclude data
+exclude data design
 
 recursive-exclude data *.json
+recursive-exclude design *.pdf
 recursive-exclude * __pycache__ *.py[co]
 
 recursive-include tests *
-recursive-include bpz *.py
+recursive-include bpz *.py *.keep
+recursive-include bpz/templates *.jinja2
+recursive-include bpz/static *.css *.js *.map *.eot *.svg *.ttf *.woff
 recursive-include bpzaroundme *.py
 recursive-include docs *.rst conf.py Makefile make.bat .keep
