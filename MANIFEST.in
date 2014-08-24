@@ -12,7 +12,8 @@ recursive-exclude * __pycache__ *.py[co]
 
 recursive-include tests *
 recursive-include bpz *.py *.keep
-recursive-include bpz/templates *.jinja2
+recursive-include bpz/fixtures *.json
 recursive-include bpz/static *.css *.js *.map *.eot *.svg *.ttf *.woff
+recursive-include bpz/templates *.jinja2
 recursive-include bpzaroundme *.py
 recursive-include docs *.rst conf.py Makefile make.bat .keep
