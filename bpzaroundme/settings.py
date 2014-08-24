@@ -145,6 +145,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.gis',
 
     # Third-party apps
     'south',
@@ -196,9 +197,13 @@ LOGGING = {
         },
     }
 }
+# Third-party apps
 
-# Use django-nose to run tests
+# django-nose
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# jingo
+JINGO_INCLUDE_PATTERN = r'\.jinja2'
 
 # More overrides from environment
 
