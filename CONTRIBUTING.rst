@@ -101,34 +101,12 @@ Ready to contribute? Here's how to set up `BPZAround.me` for local development.
 Run on Heroku
 -------------
 
-#. Install the prerequisites for Heroku.  See
-   `Getting Started with Django on Heroku`_ for detailed instructions.
-   Get to the point where you've created your app (after ``heroku create``).
+#. `Register for Heroku`_
 
-.. _`Getting Started with Django on Heroku`:
-    https://devcenter.heroku.com/articles/getting-started-with-django
+#. .. image:: https://www.herokucdn.com/deploy/button.png
+        :target: https://heroku.com/deploy?template=https://github.com/codefortulsa/BPZAround.me
 
-#. Configure your app.  Here's a suggested configuration::
-
-   heroku config:set DJANGO_DEBUG=1
-   heroku config:set SECURE_PROXY_SSL_HEADER="HTTP_X_FORWARDED_PROTO,https"
-   heroku config:set ALLOWED_HOSTS=*
-   heroku config:set INSTALLED_APPS=gunicorn
-   heroku config:set STATIC_ROOT=staticfiles
-   heroku config:set SECRET_KEY=`openssl rand -base64 32`
-
-#. Push the code to Heroku::
-
-    git push heroku master
-
-#. Run it::
-
-   $ heroku ps:scale web=1
-   $ heroku ps    # Verify
-   $ heroku open  # Open in your browser, or
-   $ heroku logs  # See what went wrong
-
-
+.. _`Register for Heroku`: https://id.heroku.com/signup
 
 Make Changes
 ------------
