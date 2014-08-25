@@ -65,14 +65,14 @@ Ready to contribute? Here's how to set up `BPZAround.me` for local development.
 
     git clone git@github.com:your_name_here/BPZAround.me.git
 
-#. Install requirements into a `virtualenv`_. This is easiest with 
+#. Install requirements into a `virtualenv`_. This is easiest with
    `virtualenvwrapper`_::
 
     mkvirtualenv BPZAround.me
     cd BPZAround.me/
     pip install -r requirements.txt -r requirements.dev.txt
 
-#. `Install PostGIS for GeoDjango`_. 
+#. `Install PostGIS for GeoDjango`_.
 
 #. Create a ``bpzaroundme`` PostGIS spatial database per the
    `Post-installation`_ instructions for your version of Postgres & PostGIS.::
@@ -101,24 +101,27 @@ Ready to contribute? Here's how to set up `BPZAround.me` for local development.
 Run on Heroku
 -------------
 
-1. Install the prerequisites for Heroku.  See
+#. Install the prerequisites for Heroku.  See
    `Getting Started with Django on Heroku`_ for detailed instructions.
    Get to the point where you've created your app (after ``heroku create``).
 
 .. _`Getting Started with Django on Heroku`:
     https://devcenter.heroku.com/articles/getting-started-with-django
 
-2. Configure your app.  Here's a suggested configuration::
+#. Configure your app.  Here's a suggested configuration::
 
-   $ heroku config
-   $ heroku config:set DJANGO_DEBUG=1
-   $ heroku config:set SECURE_PROXY_SSL_HEADER="HTTP_X_FORWARDED_PROTO,https"
-   $ heroku config:set ALLOWED_HOSTS=*
-   $ heroku config:set INSTALLED_APPS=gunicorn
-   $ heroku config:set STATIC_ROOT=staticfiles
-   $ heroku config:set SECRET_KEY=`python -c "from django.utils.crypto import get_random_string; print(get_random_string())"`
+   heroku config:set DJANGO_DEBUG=1
+   heroku config:set SECURE_PROXY_SSL_HEADER="HTTP_X_FORWARDED_PROTO,https"
+   heroku config:set ALLOWED_HOSTS=*
+   heroku config:set INSTALLED_APPS=gunicorn
+   heroku config:set STATIC_ROOT=staticfiles
+   heroku config:set SECRET_KEY=`openssl rand -base64 32`
 
-3. Run it::
+#. Push the code to Heroku::
+
+    git push heroku master
+
+#. Run it::
 
    $ heroku ps:scale web=1
    $ heroku ps    # Verify
