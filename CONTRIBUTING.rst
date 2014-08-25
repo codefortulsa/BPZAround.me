@@ -52,83 +52,51 @@ If you are proposing a feature:
 * Remember that this is a volunteer-driven project, and that contributions
   are welcome :)
 
+.. _get-started:
+
 Get Started!
 ------------
 
 Ready to contribute? Here's how to set up `BPZAround.me` for local development.
 
-1. Setup a GeoDjango-compatible database.  We recommend PostgreSQL 9.1+ with
-   PostGIS 2.0 or greater.  See these links for help:
+#. `Fork BPZAround.me`_ on GitHub.
 
-   * `PostGIS Installation Page`_
-   * `PostgreSQL Download Page`_
-   * `Installing PostGIS`_ from Django documentation
+#. `Clone`_ your fork locally::
 
-.. _`PostGIS Installation Page`: http://postgis.net/install
-.. _`PostgreSQL Download Page`: http://www.postgresql.org/download/
-.. _`Installing PostGIS`: https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/postgis
+    git clone git@github.com:your_name_here/BPZAround.me.git
 
-2. Create a template PostgreSQL database with the PostGIS extensions loaded.
-   This will be used for your development database and for temporary databases
-   created during tests::
+#. Install requirements into a `virtualenv`_. This is easiest with 
+   `virtualenvwrapper`_::
 
-    $ createdb template_postgis
-    $ psql template_postgis -c "CREATE EXTENSION postgis;"
-    $ psql template_postgis -c "CREATE EXTENSION postgis_topology;"
-    $ psql template_postgis -c "UPDATE pg_database SET datistemplate=true WHERE datname='template_postgis';"
+    mkvirtualenv BPZAround.me
+    cd BPZAround.me/
+    pip install -r requirements.txt -r requirements.dev.txt
 
+#. `Install PostGIS for GeoDjango`_. 
 
-3. Fork the `BPZAround.me` repo on GitHub.
-4. Clone your fork locally::
+#. Create a ``bpzaroundme`` PostGIS spatial database per the
+   `Post-installation`_ instructions for your version of Postgres & PostGIS.::
 
-    $ git clone git@github.com:your_name_here/BPZAround.me.git
+#. Setup your local environment (Note: you can automate this with `autoenv`_)::
 
-5. Install your local copy into a virtualenv. Assuming you have
-   virtualenvwrapper installed, this is how you set up your fork for local
-   development::
+    source .env
 
-    $ mkvirtualenv BPZAround.me
-    $ cd BPZAround.me/
-    $ pip install -r requirements.txt -r requirements.test.txt -r requirements.dev.txt
-
-6. Setup your local environment::
-
-    $ vi $VIRTUAL_ENV/bin/postactivate  # Add exporting variables
-    $ vi $VIRTUAL_ENV/bin/postactivate  # Unset variables
-    $ source $VIRTUAL_ENV/bin/postactivate  # Apply changes
-
-   Here's a suggested postactivate::
-
-    #!/bin/bash
-    # This hook is run after this virtualenv is activated.
-
-    export DJANGO_DEBUG=1
-    export DATABASE_URL=postgis://bpzaroundme@/bpzaroundme
-
-   And the matching predeactivate::
-
-    #!/bin/bash
-    # This hook is run after this virtualenv is activated.
-
-    unset DJANGO_DEBUG
-    unset DATABASE_URL
-
-   See bpzaroundme/settings.py for additional settings.
-
-7. Get your PostGIS database setup::
-
-    $ createuser --createdb --login bpzaroundme
-    $ createdb --owner=bpzaroundme --template=template_postgis bpzaroundme
-    $ ./manage.py syncdb  # Setup your superuser as well
-
-8. Make sure tests work::
+#. Make sure tests work::
 
    $ ./manage.py test
 
-9. Run it!::
+#. Run it!::
 
    $ ./manage.py runserver
 
+.. _`Fork BPZAround.me`: https://github.com/codefortulsa/BPZAround.me/fork
+.. _Clone: http://git-scm.com/book/en/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository
+.. _virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/
+.. _virtualenvwrapper: http://virtualenvwrapper.readthedocs.org/en/latest/install.html#basic-installation
+.. _autoenv: https://github.com/kennethreitz/autoenv
+.. _`Install PostGIS for GeoDjango`:
+    https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/postgis
+.. _`Post-installation`: https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/postgis/#post-installation
 
 Run on Heroku
 -------------
