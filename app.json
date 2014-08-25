@@ -1,0 +1,11 @@
+{
+    "name": "BPZAround.me",
+    "description": "BPZAround.me alerts you when someone is building, planning, or zoning around you.",
+    "repository": "https://github.com/codefortulsa/BPZAround.me",
+    "keywords": ["python", "django", "geodjango", "postgres", "postgis", "twilio"],
+    "env": {
+        "SECRET_KEY": {
+            "generator": "secret"
+        }
+    }
+}
