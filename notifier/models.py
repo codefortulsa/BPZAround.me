@@ -9,6 +9,7 @@ from django.contrib.gis.db import models
 from django.conf import settings
 
 
+@python_2_unicode_compatible
 def newNonce(self=None):
     '''
     create a new nonce using md5, the secret key, current timestamp and optionally a primary key
@@ -26,48 +27,25 @@ def newNonce(self=None):
 
 
 @python_2_unicode_compatible
-class NotificationEmail(models.Model):
-    '''Notification Email
-    To track an email without using the auth system
+class ContactInfo(models.Model):
+    '''Contact Email address or phone number
+    To track an email address or phone number without using the auth system
     To allow user to cancel or make changes, send a URL with a nonce that is the authentication token
     Nonce is recreated each time user clicks a "Send me an access URL" request
     '''
 
     email = models.EmailField("User's email address")
+    phoneNumber = models.CharField("Phone number for SMS", max_length=21, db_index=True)
     nonce = models.CharField("Security nonce for making changes", max_length=32, db_index=True, default=newNonce)
     emailVerified = models.BooleanField("Has the email address been verified?", default=False)
     killFlag = models.BooleanField("Do not send email to this address", default=False)
     createTimeStamp = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Notification Emails'
+        verbose_name = 'Contact information'
 
     def __str__(self):
-        return self.email
-
-
-@python_2_unicode_compatible
-class NotificationPhone(models.Model):
-    '''Notification phone number
-    To track a phone number without using the auth system
-    To allow user to cancel or make changes, send a URL with a nonce that is the authentication token
-    Nonce is recreated each time user clicks a "Send me an access URL" request
-    Also, the user can do some things by replying
-    '''
-
-    # TODO: create a view for the incoming twilio SMS request (and a static one for phone calls)
-
-    phoneNumber = models.CharField("Phone number for SMS", max_length=21, db_index=True)
-    nonce = models.CharField("Security nonce for making changes", max_length=32, db_index=True, default=newNonce)
-    emailVerified = models.BooleanField("Has the phone number been verified?", default=False)
-    killFlag = models.BooleanField("Do not send text messages to this phone", default=False)
-    createTimeStamp = models.DateTimeField("Record create date / time", auto_now=True)
-
-    class Meta:
-        verbose_name = 'Notification Emails'
-
-    def __str__(self):
-        return self.email
+        return self.email + " " + self.phoneNumber
 
 
 @python_2_unicode_compatible
