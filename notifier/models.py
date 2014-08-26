@@ -40,6 +40,9 @@ class ContactInfo(models.Model):
     emailVerified = models.BooleanField("Has the email address been verified?", default=False)
     killFlag = models.BooleanField("Do not send email to this address", default=False)
     createTimeStamp = models.DateTimeField(auto_now=True)
+    lastEmailSent = models.DateTimeField(null=True)
+    lastSMSSent = models.DateTimeField(null=True)
+    NumSMSSentToday = models.IntegerField()  # for rate limiting
 
     class Meta:
         verbose_name = 'Contact information'
@@ -52,7 +55,7 @@ class ContactInfo(models.Model):
 class Subscription(models.Model):
     '''Subscriptions
 
-    There can be many records here associated with one email and / or phone
+    There can be many records here associated with one contact record
     A subscription is a geographic location and a type
 
     '''
@@ -63,11 +66,14 @@ class Subscription(models.Model):
         ('T', 'TMAP (?) notifications'),
     )
 
-    notifyEmail = models.ForeignKey(NotificationEmail)
-    notifyPhone = models.ForeignKey(NotificationPhone)
+    contactInfo = models.ForeignKey(ContactInfo)
     subscriptionType = models.CharField(max_length=1, null=False, choices=SUBSCRIPTION_CHOICES)
     geom = models.GeometryField(srid=4326)
-    lastEmailSent = models.DateTimeField(null=True)
-    lastSMSSent = models.DateTimeField(null=True)
-    textsSentToday = models.IntegerField()
+    nextNotification = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'User subscription'
+
+    def __str__(self):
+        return self.PK + " " + self.subscriptionType + " " + self.nextNotification
 
