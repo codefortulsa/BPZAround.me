@@ -1,6 +1,7 @@
 from twilio.rest import TwilioRestClient
-from django.conf import settings
-from django.views.generic import TemplateView
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from notifier.models import *
 
 
 class RequestContextMixin(object):
@@ -27,5 +28,22 @@ def SendText(self, phone, smstext):
     )
 
 
-class PhoneSettings(RequestContextMixin, TemplateView):
-    pass
+def changeSettings(request, nonce=""):
+    '''Use emailed or texted URL to modify settings
+    Check incoming nonce against email or SMS to allow settings to be changed
+
+    This same URL is used to verify an email or a phone number. If
+    merge duplicate records in DB if phone number and email match up (?)
+    :param request:
+    :return:
+    '''
+
+
+def incomingSMS(request):
+    '''
+    Handle incoming SMS message from twilio
+    :param request:
+    :return:
+    '''
+
+
