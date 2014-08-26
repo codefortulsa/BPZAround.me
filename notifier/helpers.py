@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 '''Notifier helper functions
 
 Flow:
@@ -140,3 +141,25 @@ def doNotifications():
     #increase NumSMSSentToday by 1
     #Is the NumSMSSentToday>limit if so, append limit warning to outbound SMS msg
     #send sms
+=======
+from notifier.models import *
+
+def requestURLbySMS(phoneNumber):
+    '''Send the user a change URL with nonce to make changes or verify
+
+    Look for the phone number in the contactinfo table and add if it isn't already there
+    :param phoneNumber:
+    :return:
+    '''
+
+
+def requestURLbyEmail(emailAddress):
+    '''Send the user a change URL with nonce to make changes or verify
+
+    Look for the phone number in the contactinfo table and add if it isn't already there
+    :param emailAddress:
+    :return:
+    '''
+
+
+>>>>>>> 78f3a0d... Refactor models to merge phone/email
