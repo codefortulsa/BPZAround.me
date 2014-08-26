@@ -43,5 +43,3 @@ def incomingSMS(request):
     '''
 
     #TODO: handle incoming messages
-
-
