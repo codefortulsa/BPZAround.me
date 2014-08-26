@@ -1,9 +1,3 @@
-from twilio.rest import TwilioRestClient
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
-from notifier.models import *
-
-
 class RequestContextMixin(object):
     def get_context_data(self, **kwargs):
         ctx = super(RequestContextMixin, self).get_context_data(**kwargs)
@@ -11,32 +5,20 @@ class RequestContextMixin(object):
         return ctx
 
 
-def SendText(self, phone, smstext):
-    '''
-    Send a text message using twilio
-
-    :param phone:
-    :param smstext:
-    :return:
-    '''
-    client = TwilioRestClient(settings.TWILIO_SID, settings.TWILIO_AUTH)
-
-    client.messages.create(
-        body=smstext,
-        to=phone,
-        from_=settings.TWILIO_NUM
-    )
-
-
 def changeSettings(request, nonce=""):
     '''Use emailed or texted URL to modify settings
     Check incoming nonce against email or SMS to allow settings to be changed
 
-    This same URL is used to verify an email or a phone number. If
-    merge duplicate records in DB if phone number and email match up (?)
+    This same URL is used to verify an email or a phone number.
+
+    Provide a place to enter an email address or phone number to link the two together
+
+
     :param request:
     :return:
     '''
+
+    #TODO: need some way to link an existing phone and a separate existing email into one record, but not a blocking issue
 
 
 def incomingSMS(request):
