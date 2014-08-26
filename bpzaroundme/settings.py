@@ -222,6 +222,6 @@ if environ.get('ALLOWED_HOSTS'):
 
 #Twilio account information from environment
 if environ.get('TWILIO_SID'):
-    TWILIO_SID = environ['TWILIO_SID']
-    TWILIO_AUTH = environ['TWILIO_AUTH']
-    TWILIO_NUM = environ['TWILIO_NUM']
+    TWILIO_SID = environ.get('TWILIO_SID', 'Twilio not configured')
+    TWILIO_AUTH = environ.get('TWILIO_AUTH', 'Twilio not configured')
+    TWILIO_NUM = environ.get('TWILIO_NUM', 'Twilio not configured')

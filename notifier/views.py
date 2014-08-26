@@ -1,18 +1,31 @@
-from django.shortcuts import render
 from twilio.rest import TwilioRestClient
-from ..bpzaroundme.settings import TWILIO_SID, TWILIO_AUTH, TWILIO_NUM
+from django.conf import settings
+from django.views.generic import TemplateView
 
-# Create your views here.
 
-def test(self):
-    client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH)
+class RequestContextMixin(object):
+    def get_context_data(self, **kwargs):
+        ctx = super(RequestContextMixin, self).get_context_data(**kwargs)
+        ctx['request'] = self.request
+        return ctx
 
-    smstext = ""
-    sms = ""
+
+def SendText(self, phone, smstext):
+    '''
+    Send a text message using twilio
+
+    :param phone:
+    :param smstext:
+    :return:
+    '''
+    client = TwilioRestClient(settings.TWILIO_SID, settings.TWILIO_AUTH)
+
     client.messages.create(
         body=smstext,
-        to=sms,
-        from_=TWILIO_NUM,
+        to=phone,
+        from_=settings.TWILIO_NUM
     )
 
 
+class PhoneSettings(RequestContextMixin, TemplateView):
+    pass

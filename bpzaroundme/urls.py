@@ -6,5 +6,6 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^', include('bpz.urls', namespace='bpz')),
+    url(r'^', include('notifier.urls', namespace='notifier')),
     url(r'^admin/', include(admin.site.urls)),
 )
