@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 '''Views for notifications
 
     change user info
@@ -17,6 +18,8 @@ from django.shortcuts import render
 from notifier.models import *
 
 
+=======
+>>>>>>> 653fb1a... Fixing up previous models refactor
 class RequestContextMixin(object):
     def get_context_data(self, **kwargs):
         ctx = super(RequestContextMixin, self).get_context_data(**kwargs)
