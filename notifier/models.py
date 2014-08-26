@@ -50,6 +50,36 @@ class ContactInfo(models.Model):
     def __str__(self):
         return self.email + " " + self.phoneNumber
 
+    class Meta:
+        verbose_name = 'Notification Emails'
+
+    def __str__(self):
+        return self.email
+
+
+@python_2_unicode_compatible
+class NotificationPhone(models.Model):
+    '''Notification phone number
+    To track a phone number without using the auth system
+    To allow user to cancel or make changes, send a URL with a nonce that is the authentication token
+    Nonce is recreated each time user clicks a "Send me an access URL" request
+    Also, the user can do some things by replying
+    '''
+
+    # TODO: create a view for the incoming twilio SMS request (and a static one for phone calls)
+
+    phoneNumber = models.CharField("Phone number for SMS", max_length=21, db_index=True)
+    nonce = models.CharField("Security nonce for making changes", max_length=32, db_index=True, default=newNonce)
+    emailVerified = models.BooleanField("Has the phone number been verified?", default=False)
+    killFlag = models.BooleanField("Do not send text messages to this phone", default=False)
+    createTimeStamp = models.DateTimeField("Record create date / time", auto_now=True)
+
+    class Meta:
+        verbose_name = 'Notification Emails'
+
+    def __str__(self):
+        return self.email
+
 
 @python_2_unicode_compatible
 class Subscription(models.Model):
@@ -77,4 +107,3 @@ class Subscription(models.Model):
 
     def __str__(self):
         return self.PK + " " + self.subscriptionType + " " + self.nextNotification
-
