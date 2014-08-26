@@ -12,8 +12,9 @@
 
 '''
 from twilio.rest import TwilioRestClient
-from django.conf import settings
-from django.views.generic import TemplateView
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from notifier.models import *
 
 
 class RequestContextMixin(object):
