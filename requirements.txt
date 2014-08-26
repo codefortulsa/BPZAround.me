@@ -24,3 +24,6 @@ gunicorn==19.1.1
 # nose - improved test runner
 nose==1.3.3
 django-nose==1.2
+
+#twilio
+django-twilio==0.7.1
