@@ -22,3 +22,6 @@ pyroma==1.6
 # Sphinx - documentation
 Pygments==1.6
 Sphinx==1.2.2
+
+#twilio
+django-twilio==0.7.1

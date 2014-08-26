@@ -157,7 +157,6 @@ INSTALLED_APPS = [
 if environ.get('EXTRA_INSTALLED_APPS'):
     INSTALLED_APPS += environ['EXTRA_INSTALLED_APPS'].split(',')
 
-
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 # A sample logging configuration. The only tangible logging
@@ -220,3 +219,9 @@ if environ.get('SECURE_PROXY_SSL_HEADER'):
 # https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
 if environ.get('ALLOWED_HOSTS'):
     ALLOWED_HOSTS = environ['ALLOWED_HOSTS'].split(',')
+
+#Twilio account information from environment
+if environ.get('TWILIO_SID'):
+    TWILIO_SID = environ['TWILIO_SID']
+    TWILIO_AUTH = environ['TWILIO_AUTH']
+    TWILIO_NUM = environ['TWILIO_NUM']
