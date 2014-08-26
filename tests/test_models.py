@@ -10,13 +10,13 @@ Tests for bpz models
 
 from django.test import TestCase
 
-from bpz.models import BOACase, HomeOwnersAssociation, TMAPCCase
+from bpz.models import Case, HomeOwnersAssociation
 
 
-class BOACaseTestCase(TestCase):
+class CaseTestCase(TestCase):
 
     def test_str(self):
-        case = BOACase(case_id='BOA-21745')
+        case = Case(case_id='BOA-21745')
         self.assertEqual(str(case), 'BOA-21745')
 
 
@@ -27,10 +27,3 @@ class HomeOwnersAssociationTestCase(TestCase):
         self.assertEqual(str(hoa), '<unnamed>')
         hoa.name = 'Home Owners United'
         self.assertEqual(str(hoa), 'Home Owners United')
-
-
-class TMAPCCaseTestCase(TestCase):
-
-    def test_str(self):
-        case = TMAPCCase(case_id='Z-7276')
-        self.assertEqual(str(case), 'Z-7276')
