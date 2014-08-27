@@ -20,7 +20,14 @@ class Case(models.Model):
         (DOMAIN_TMAPC, 'Tulsa Metropolitan Area Planning Commission'),
     )
 
-    TYPE_CHOICES = [(x, x) for x in (
+    STATUS_CHOICES = [(x, x) for x in (
+        'Pending',
+        'Continued',
+        'Approved',
+        'Deny',
+    )]
+
+    CASE_TYPE_CHOICES = [(x, x) for x in (
         "Board of Adjustment",
         "Corridor Minor Amendment",
         "Corridor Plan",
@@ -36,13 +43,11 @@ class Case(models.Model):
     object_id = models.IntegerField()
     case_id = models.CharField(max_length=30)
     domain = models.CharField(max_length=10, choices=DOMAIN_CHOICES)
-    status = models.CharField(
-        max_length=10, choices=[(x, x) for x in (
-            'Pending', 'Continued', 'Approved', 'Deny')])
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
     location = models.CharField(max_length=50)
     link = models.URLField()
     hearing_date = models.DateField()
-    case_type = models.CharField(max_length=30, choices=TYPE_CHOICES)
+    case_type = models.CharField(max_length=30, choices=CASE_TYPE_CHOICES)
     geom = models.GeometryField(srid=4326)
     objects = models.GeoManager()
 
