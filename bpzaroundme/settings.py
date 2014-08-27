@@ -160,6 +160,7 @@ INSTALLED_APPS = [
     # Third-party apps
     'south',
     'django_nose',
+    'rest_framework',
 
     # Our apps
     'bpz',
