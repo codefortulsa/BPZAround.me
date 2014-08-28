@@ -3,14 +3,24 @@
 {% block head_title %}Neighborhood Plugin{% endblock %}
 
 {% block body_container %}
-<div class="jumbotron">
-  <div class="container">
-    <h1 class="smaller">Welcome to the Neighborhood Plugin</h1>
-    <p>
-        Hi, this is some information about what this app is, what it does,
-        and why it needs to use your GPS to find your neighborhood.
-        <a href="#">Learn more&gt;&gt;</a>
-    </p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3 col-md-6 col-md-offset-3">
+      <div id="map-canvas">
+      </div>
+    </div>
   </div>
-</div>
+  <div class="row">
+    <div class="col-sm-3 col-md-6 col-md-offset-3">
+      <p>Hi, this is some information about what this app is, what it does, and why it needs to use your GPS to find your neighborhood. <a href="#">Learn more&raquo;</a></p>
+    </div>
+
+  </div>
+
+</div><!-- /.container -->
+
 {% endblock %}
+
+{% block body_js -%}
+<script src="{{ static('js/home.js') }}"></script>
+{%- endblock body_js %}
