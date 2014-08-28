@@ -4,3 +4,6 @@ body {
 #map-canvas {
   height:250px;
 }
+#btn-neighborhood {
+  font-size:2em;
+}
