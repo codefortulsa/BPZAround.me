@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from .models import Case, HomeOwnersAssocation
+from .models import Case, HomeOwnersAssociation
 
 
 class CaseViewSet(viewsets.ModelViewSet):
@@ -8,4 +8,4 @@ class CaseViewSet(viewsets.ModelViewSet):
 
 
 class HOAViewSet(viewsets.ModelViewSet):
-    model = HomeOwnersAssocation
+    model = HomeOwnersAssociation
