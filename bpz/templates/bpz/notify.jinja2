@@ -1,0 +1,13 @@
+{% extends 'bpz/base.jinja2' %}
+
+{% block content %}
+<p>Get informed about public meetings affecting your neighborhood. Sign up to receive notifications:</p>
+
+<form action="" method="post" data-ajax="false">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+{% endblock content %}
+
+

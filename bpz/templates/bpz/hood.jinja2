@@ -1,0 +1,27 @@
+{% extends 'bpz/base.jinja2' %}
+{% block content %}
+ 
+<script>
+  
+bound={{hood.boundary}}
+
+
+</script> 
+ 
+<div id="map_content" 
+   class="ui-content search_map" 
+   role="main" data-role="content" data-theme="b">
+</div>
+<div>
+  
+  <p>Contact</p>{{ hood.contact}}
+  <p>Phone</p>{{ hood.phone}}
+  <p>Email</p>{{ hood.email}}
+  <p>Meetings</p>{{ hood.meetings}}
+  <p>Website</p>{{ hood.url}}
+  
+  <a >BUTTON: View building, planning, and zoning meetings in the Pearl District</a>
+  
+</div>
+
+{% endblock content %}
