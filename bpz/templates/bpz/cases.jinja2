@@ -3,20 +3,37 @@
 
 {% block content %}
  
-<div id="map-canvasd" 
-   class="ui-content search_map" 
-   role="main" data-role="content" data-theme="b">
+<div id="map-canvas"> </div>
+
+
+<div>
+  
+  <ul id="case_list"></ul>
+  
 </div>
-
-
-
-<a>Get notified of building, planning, and zoning meetings in the Pearl District»</a>
-
 
 <script>
   
+
+$(document).on('bpz_load',function () {
   
-  
+  bpz.api.cases().done(function (cases) {
+    
+    map.featureLayer.setGeoJSON(cases);
+    map.featureLayer.on('click',function (e) {
+      $("#case_list").html("");
+      for (prop in e.layer.feature.properties){
+        
+        $("#case_list").append($("<li>").text(prop + " : " + e.layer.feature.properties[prop])) 
+        
+        
+      }
+
+    })
+    }
+  )
+})
+
 </script>
 
 

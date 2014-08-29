@@ -12,6 +12,8 @@
 
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js" charset="utf-8"></script>
+    <script src="{{ static('vendor/jquery/jquery-1.11.1.min.js') }}"></script>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -49,7 +51,6 @@
     {% block content %}{% endblock %}
     {%- endblock body_container %}
 
-    <script src="{{ static('vendor/jquery/jquery-1.11.1.min.js') }}"></script>
     <script src="{{ static('vendor/bootstrap-3.2.0-dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ static('js/bpz.js') }}"></script>
     {% block body_js -%}
