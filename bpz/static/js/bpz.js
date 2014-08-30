@@ -62,6 +62,8 @@ for (_i = 0, _len = call_map.length; _i < _len; _i++) {
   _fn(value);
 }
 
+
+
 document.dispatchEvent(new Event('bpz_load'))
 
 jQuery(document).ready(function () {
