@@ -1,38 +1,41 @@
-// function Location() {
-//   var options = {
-//     enableHighAccuracy: true
-//   },
-//     inner_pos = {},
-//     dfd = new $.Deferred(),
-//     moved = function(pos) {
-//       inner_pos = pos || {};
-//       dfd.resolve()
-//     },
-//     fail = function(err) {
-//       if (err) {
-//         console.warn('ERROR(' + err.code + '): ' + err.message);
-//       }
-//       dfd.reject()
-//     };
-//
-//   this.__defineGetter__("lat", function() {
-//     return inner_pos.coords ? inner_pos.coords.latitude : null;
-//   });
-//
-//   this.__defineGetter__("lng", function() {
-//     return inner_pos.coords ? inner_pos.coords.longitude : null;
-//   });
-//
-//   this.WatchID = navigator.geolocation.watchPosition(moved, fail, options);
-//
-//   this.ready = dfd.promise()
-// }
-//
-//
-//
-
-
 var call_map, bpz, value, _fn, _i, _len;
+
+
+function Location() {
+  var options = {
+    enableHighAccuracy: true
+  },
+    inner_pos = {},
+    dfd = new $.Deferred(),
+    moved = function(pos) {
+      inner_pos = pos || {};
+      dfd.resolve(this)
+    },
+    fail = function(err) {
+      if (err) {
+        console.warn('ERROR(' + err.code + '): ' + err.message);
+      }
+      dfd.reject()
+    };
+
+  this.__defineGetter__("lat", function() {
+    return inner_pos.coords ? inner_pos.coords.latitude : null;
+  });
+
+  this.__defineGetter__("lng", function() {
+    return inner_pos.coords ? inner_pos.coords.longitude : null;
+  });
+
+  this.__defineGetter__("pos", function() {
+      return {lng:this.lng,lat:this.lat};
+    });
+
+  this.WatchID = navigator.geolocation.watchPosition(moved, fail, options);
+
+  this.ready = dfd.promise()
+}
+
+
 
 bpz = {
   api: {}
@@ -69,7 +72,16 @@ document.dispatchEvent(new Event('bpz_load'))
 jQuery(document).ready(function () {
 
   L.mapbox.accessToken ='pk.eyJ1IjoiamR1bmdhbiIsImEiOiJlOTl6MFpNIn0.-3o5vIOCjkfXd-7ibZrb8A'
-  map = L.mapbox.map('map-canvas', 'jdungan.jbbebonl').setView([36.1587336,-95.9940543],16);
+  map = L.mapbox.map('map-canvas', 'jdungan.jbbebonl').setView([36.1587336,-95.9940543],12);
+
+  loc = new Location()
+
+  loc.ready.done(function (d) {
+    map.setView(loc.pos,12)
+    
+  })
+
+
   $(window).trigger('bpz_load');
     
 });
