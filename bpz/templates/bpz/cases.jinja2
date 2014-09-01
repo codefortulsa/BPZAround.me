@@ -1,99 +1,75 @@
-
 {% extends "bpz/base.jinja2" %}
 
 {% block content %}
- 
-<div id="map-canvas"> </div>
-
-
-<divlass="panel panel-default">
-  <div class="panel-heading">Cases</div>
-  
-  <ul id="case-list" class="list-group"></ul>
-  
-</div>
-
-<script>
-  
-  
-// <div class="media">
-//   <a class="pull-left" href="#">
-//     <img class="media-object" src="..." alt="...">
-//   </a>
-//   <div class="media-body">
-//     <h4 class="media-heading">Media heading</h4>
-//     ...
-//   </div>
-// </div>
-
-$(document).on('bpz_load',function () {
-  $('#map-canvas').affix({
-      offset: {
-        top: 50
-      }
-    })
-  
-  bpz.api.cases().done(function (data) {
+  <div id="map-canvas" class="navbar navbar-fixed-top" > </div>
+  <divlass="panel panel-default">
+    <div class="panel-heading">Cases</div>
+    <ul id="case-list" class="list-group"></ul>
+  </div>
+{% block body_js -%}
+  <script>
+    $(document).ready(function () {
+       
+        bpz.api.cases().done(function (data) {
     
-    map.featureLayer.setGeoJSON(data);
+          bpz.map.featureLayer.setGeoJSON(data);
 
-    var ul = d3.select("#case-list")
+          var ul = d3.select("#case-list")
     
-    cases = ul.selectAll("li")
-      .data(data.features)
-      .enter()
-      .append("li")
-        .classed("list-group-item",true)
-      .append("div")
-        .classed("media",true)
+          cases = ul.selectAll("li")
+            .data(data.features)
+            .enter()
+            .append("li")
+              .classed("list-group-item",true)
+            .append("div")
+              .classed("media",true)
       
-      cases
-        .append("div")
-        .classed("pull-left",true)
-        .insert("svg")
-          .classed("media-object",true)
-          .attr({width:50,height:50})
-          .insert("path")
-              .attr({
-                d: d3.geo.path(),
-                id: function (d,i) {
-                  return "path"+i
-                },
-                class: "leaflet-clickable",
-                transform: function (d,i,e) {
-                  bb=this.getBBox()
-                  scale = (40/Math.max(bb.height,bb.width))
-                  tx = -bb.x*scale
-                  ty = -bb.y*scale
-                  return "translate("+tx+","+ty+") scale("+scale+")"
-                },
+            cases
+              .append("div")
+              .classed("pull-left",true)
+              .insert("svg")
+                .classed("media-object",true)
+                .attr({width:50,height:50})
+                .insert("path")
+                    .attr({
+                      d: d3.geo.path(),
+                      id: function (d,i) {
+                        return "path"+i
+                      },
+                      class: "leaflet-clickable",
+                      transform: function (d,i,e) {
+                        bb=this.getBBox()
+                        scale = (40/Math.max(bb.height,bb.width))
+                        tx = -bb.x*scale
+                        ty = -bb.y*scale
+                        return "translate("+tx+","+ty+") scale("+scale+")"
+                      },
 
+                    })
+
+            cases
+              .insert("div")
+                .classed("media-body",true)
+                .text(function (d,i) {
+                text=""
+                for (prop in d.properties){
+                  text += prop + " : " + d.properties[prop] 
+                }
+                return text
               })
 
-      cases
-        .insert("div")
-          .classed("media-body",true)
-          .text(function (d,i) {
-          text=""
-          for (prop in d.properties){
-            text += prop + " : " + d.properties[prop] 
-          }
-          return text
-        })
-
-
-
-
-    map.featureLayer.on('click',function (e) {
+          bpz.map.featureLayer.on('click',function (e) {
       
-      map.fitBounds(e.layer.getBounds(),{maxZoom:16,animate:true})
+            bpz.map.fitBounds(e.layer.getBounds(),{maxZoom:16,animate:true})
 
+          })
+    
+          }
+        )
     })
-    }
-  )
-})
 
-</script>
+  </script>
+{%- endblock body_js %}
 
 
 {% endblock content %}

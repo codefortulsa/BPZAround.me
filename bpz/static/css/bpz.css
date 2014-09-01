@@ -4,6 +4,7 @@ body {
 }
 
 #map-canvas {
+  position:fixed;
   height:250px;
   width:100%;
 }

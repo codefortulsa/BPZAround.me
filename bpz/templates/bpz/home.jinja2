@@ -22,4 +22,15 @@
 {% endblock %}
 
 {% block body_js -%}
+<script>
+jQuery(document).ready(function () {
+
+  bpz.location.ready.done(function (d) {
+    bpz.map.setView(bpz.location.pos,12)  
+  
+  })
+    
+});
+  
+</script>
 {%- endblock body_js %}

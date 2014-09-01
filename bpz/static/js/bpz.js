@@ -38,8 +38,18 @@ function Location() {
 
 
 bpz = {
-  api: {}
+  _map:false,
+  api: {},
+  'location': new Location()
 };
+
+bpz.__defineGetter__("map", function() {
+  if (!bpz._map){
+    L.mapbox.accessToken ='pk.eyJ1IjoiamR1bmdhbiIsImEiOiJlOTl6MFpNIn0.-3o5vIOCjkfXd-7ibZrb8A'
+    bpz._map=L.mapbox.map('map-canvas', 'jdungan.jbbebonl').setView([36.1587336,-95.9940543],12); 
+  }
+  return bpz._map
+});
 
 
 bpz.api.raw = function(resource, ajax_params) {
@@ -65,21 +75,3 @@ for (_i = 0, _len = call_map.length; _i < _len; _i++) {
   _fn(value);
 }
 
-document.dispatchEvent(new Event('bpz_load'))
-
-jQuery(document).ready(function () {
-
-  L.mapbox.accessToken ='pk.eyJ1IjoiamR1bmdhbiIsImEiOiJlOTl6MFpNIn0.-3o5vIOCjkfXd-7ibZrb8A'
-  map = L.mapbox.map('map-canvas', 'jdungan.jbbebonl').setView([36.1587336,-95.9940543],12);
-
-  loc = new Location()
-
-  loc.ready.done(function (d) {
-    map.panTo(loc.pos)
-    
-  })
-
-
-  $(window).trigger('bpz_load');
-    
-});
