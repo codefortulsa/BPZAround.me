@@ -1,20 +1,56 @@
 {% extends "bpz/base.jinja2" %}
 
 {% block content %}
-  <div id="map-canvas" class="navbar navbar-fixed-top" > </div>
+
   <divlass="panel panel-default">
     <div class="panel-heading">Cases</div>
     <ul id="case-list" class="list-group"></ul>
   </div>
+
+
+
+{% endblock content %}
+
+
+
 {% block body_js -%}
   <script>
-    $(document).ready(function () {
-       
-        bpz.api.cases().done(function (data) {
     
-          bpz.map.featureLayer.setGeoJSON(data);
+  
+    $(document).ready(function () {
 
+        bpz.api.cases().done(function (data) {
+          
+          bpz.map.featureLayer.setGeoJSON(data);
+          
+          
+          bpz.map.featureLayer.eachLayer(function (layer) {
+            $(layer._container).attr("id","path-"+layer.feature.properties.object_id)    
+          })
+          
+          bpz.map.featureLayer.addEventListener("zoom_case",function (e) {
+            
+             bpz.map.fitBounds(e.layer.getBounds(),{maxZoom:16,animate:true})
+            
+          })
+          
+          
+          bpz.map.featureLayer.on('click',function (e) {
+            // bpz.map.fitBounds(e.layer.getBounds(),{maxZoom:16,animate:true})
+            
+            var container = $('body'),
+                scrollTo = $('#object_id-'+e.layer.feature.properties.object_id);
+
+            container.animate({
+                scrollTop: scrollTo.offset().top - container.offset().top -325
+            })
+            
+            bpz.map.featureLayer.fireEvent("zoom_case",e)
+
+          })
+          
           var ul = d3.select("#case-list")
+          ul.style({position:'relative',top:'300px'})
     
           cases = ul.selectAll("li")
             .data(data.features)
@@ -24,59 +60,60 @@
             .append("div")
               .classed("media",true)
       
-            cases
-              .append("div")
-              .classed("pull-left",true)
-              .insert("svg")
-                .classed("media-object",true)
-                .attr({width:50,height:50})
-                .insert("path")
-                    .attr({
-                      d: d3.geo.path(),
-                      id: function (d,i) {
-                        return "path"+i
-                      },
-                      class: "leaflet-clickable",
-                      transform: function (d,i,e) {
-                        bb=this.getBBox()
-                        scale = (40/Math.max(bb.height,bb.width))
-                        tx = -bb.x*scale
-                        ty = -bb.y*scale
-                        return "translate("+tx+","+ty+") scale("+scale+")"
-                      },
+          cases
+            .append("div")
+            .classed("pull-left",true)
+            .insert("svg")
+              .classed("media-object",true)
+              .attr({width:50,height:50})
+              .insert("path")
+                  .attr({
+                    d: d3.geo.path(),
+                    class: "leaflet-clickable",
+                    transform: function (d,i,e) {
+                      bb=this.getBBox()
+                      scale = (40/Math.max(bb.height,bb.width))
+                      tx = -bb.x*scale
+                      ty = -bb.y*scale
+                      return "translate("+tx+","+ty+") scale("+scale+")"
+                    },
 
-                    })
-
-            cases
-              .insert("div")
-                .classed("media-body",true)
-                .text(function (d,i) {
+                  })
+          cases
+            .insert("div")
+              .classed("media-body",true)
+              .attr({id: function (d,i) {
+                return "object_id-"+d.properties.object_id
+              },})
+              .text(function (d,i) {
                 text=""
                 for (prop in d.properties){
                   text += prop + " : " + d.properties[prop] 
                 }
                 return text
+            })
+            .on("click",function (d,i) {
+              
+              var layer,obj_id = d.properties.object_id
+                            
+              layers = bpz.map.featureLayer.getLayers()
+              x = _.each(layers,function (element, index, list) {
+                if (element.feature.properties.object_id === obj_id){
+                  layer=element
+                  return false
+                }
+                  
               })
-
-          bpz.map.featureLayer.on('click',function (e) {
-      
-            bpz.map.fitBounds(e.layer.getBounds(),{maxZoom:16,animate:true})
-
-          })
-    
-          }
-        )
-    })
-
+              bpz.map.fitBounds(layer.getBounds(),{maxZoom:16,animate:true})    
+              
+            })
+            
+          
+          
+        }) //end get date
+    })//end doc ready
   </script>
-{%- endblock body_js %}
-
-
-{% endblock content %}
-
-
-
-  
+{%- endblock body_js %}  
   
 
 

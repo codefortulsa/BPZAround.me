@@ -1,17 +1,19 @@
 body {
-  padding-top:70px;
   overflow:scroll;
+  position:relative;
 }
 
 #map-canvas {
-  position:fixed;
   height:250px;
   width:100%;
 }
 
 
 ul#list-group {
-    overflow:scroll;
+  overflow:scroll;
+  position:'relative';
+  top:'300px'
+
 }
 
 #btn-neighborhood {
