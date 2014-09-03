@@ -22,17 +22,10 @@
         bpz.api.cases().done(function (data) {
           
           bpz.map.featureLayer.setGeoJSON(data);
-          
-          
-          bpz.map.featureLayer.eachLayer(function (layer) {
-            $(layer._container).attr("id","path-"+layer.feature.properties.object_id)    
-          })
-          
-          bpz.map.featureLayer.addEventListener("zoom_case",function (e) {
-            
-             bpz.map.fitBounds(e.layer.getBounds(),{maxZoom:16,animate:true})
-            
-          })
+                    
+          var zoomCase = function (layer) {
+             bpz.map.fitBounds(layer.getBounds(),{maxZoom:16,animate:true})
+          }
           
           
           bpz.map.featureLayer.on('click',function (e) {
@@ -45,7 +38,7 @@
                 scrollTop: scrollTo.offset().top - container.offset().top -325
             })
             
-            bpz.map.featureLayer.fireEvent("zoom_case",e)
+            zoomCase(e.layer)
 
           })
           
@@ -59,6 +52,16 @@
               .classed("list-group-item",true)
             .append("div")
               .classed("media",true)
+              .on("click",function (d,i) {
+                var layer,obj_id = d.properties.object_id
+                layers = bpz.map.featureLayer.getLayers()
+                _.each(layers,function (element, index, list) {
+                  if (element.feature.properties.object_id === obj_id){
+                    zoomCase(element)    
+                  }
+                })
+              
+              })
       
           cases
             .append("div")
@@ -85,30 +88,34 @@
               .attr({id: function (d,i) {
                 return "object_id-"+d.properties.object_id
               },})
-              .text(function (d,i) {
-                text=""
-                for (prop in d.properties){
-                  text += prop + " : " + d.properties[prop] 
-                }
-                return text
-            })
-            .on("click",function (d,i) {
-              
-              var layer,obj_id = d.properties.object_id
-                            
-              layers = bpz.map.featureLayer.getLayers()
-              x = _.each(layers,function (element, index, list) {
-                if (element.feature.properties.object_id === obj_id){
-                  layer=element
-                  return false
-                }
-                  
+              .append("p").text(function (d) {
+                return "STATUS: "+d.properties.status 
               })
-              bpz.map.fitBounds(layer.getBounds(),{maxZoom:16,animate:true})    
-              
-            })
-            
-          
+              .append("p").text(function (d) {
+                return "CASE TYPE: "+d.properties.case_type 
+              })
+              .append("p").text(function (d) {
+                return "HEARING DATE: "+d.properties.hearing_date 
+              })
+              .append("p").text(function (d) {
+                return "LOCATION: "+d.properties.location 
+              })
+              .append("p").text("APPLICATION: ")
+              .append("a").text(function (d) {
+                return d.properties.case_id 
+              })
+              .attr({
+                target:"_blank",
+                href: function (d) {
+                return d.properties.link
+                },
+              })
+
+
+// case_type: "Board of Adjustment"
+// hearing_date: "2014-07-08"
+// location: "City Council Chambers"
+// status: "Continued"
           
         }) //end get date
     })//end doc ready
