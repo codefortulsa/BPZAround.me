@@ -23,4 +23,4 @@ def cases(request):
 
 def hoa(request):
     return render(request, 'bpz/hoa.jinja2',
-            {'assocs': HomeOwnersAssociation.objects.all()})
+                  {'assocs': HomeOwnersAssociation.objects.all()})
