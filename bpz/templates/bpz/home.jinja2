@@ -24,6 +24,7 @@
 {% block body_js -%}
 <script>
 jQuery(document).ready(function () {
+  d3.select("#map-canvas").classed("active",true)
 
   bpz.location.ready.done(function (d) {
     bpz.map.setView(bpz.location.pos,16)  

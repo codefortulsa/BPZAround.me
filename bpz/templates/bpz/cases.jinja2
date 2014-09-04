@@ -18,7 +18,7 @@
     
   
     $(document).ready(function () {
-      
+       d3.select("#map-canvas").classed("active",true)
         bpz.location.ready.done(function (d) {
           bpz.map.setView(bpz.location.pos,16)  
   
@@ -37,7 +37,7 @@
           bpz.map.featureLayer.on('click',function (e) {
             // bpz.map.fitBounds(e.layer.getBounds(),{maxZoom:16,animate:true})
             
-            var container = $('body'),
+            var container = $('body,html'),
                 scrollTo = $('#object_id-'+e.layer.feature.properties.object_id);
 
             container.animate({
