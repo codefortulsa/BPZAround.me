@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url, include
 from django.views.generic import TemplateView
 from rest_framework import routers
 
-from .views import CaseViewSet, HOAViewSet, cases,hoa
+from .views import CaseViewSet, HOAViewSet, cases, hoa
 
 
 router = routers.DefaultRouter()

@@ -20,5 +20,7 @@ class HOAViewSet(viewsets.ModelViewSet):
 def cases(request):
     return render(request, 'bpz/cases.jinja2', {'cases': Case.objects.all()})
 
+
 def hoa(request):
-    return render(request, 'bpz/hoa.jinja2', {'assocs': HomeOwnersAssociation.objects.all()})
+    return render(request, 'bpz/hoa.jinja2', 
+        {'assocs': HomeOwnersAssociation.objects.all()})
