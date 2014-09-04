@@ -62,7 +62,7 @@ bpz.api.raw = function(resource, ajax_params) {
   });
 };
 
-call_map = [["cases", "/cases"]];
+call_map = [["cases", "/cases"],["hoa", "/hoas"]];
 
 _fn = function(value) {
   return bpz.api[value[0]] = function(params) {

@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url, include
 from django.views.generic import TemplateView
 from rest_framework import routers
 
-from .views import CaseViewSet, HOAViewSet, cases
+from .views import CaseViewSet, HOAViewSet, cases,hoa
 
 
 router = routers.DefaultRouter()
@@ -26,4 +26,6 @@ urlpatterns = patterns(
         TemplateView.as_view(template_name='bpz/notify.jinja2'),
         name='notify'),
     url(r'^cases', cases, name='cases'),
+    url(r'^hoa', hoa, name='home_owners'),
+
 )
