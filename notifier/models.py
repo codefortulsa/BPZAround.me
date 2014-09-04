@@ -9,6 +9,8 @@ from django.contrib.gis.db import models
 from django.conf import settings
 
 
+
+
 @python_2_unicode_compatible
 def newNonce(self=None):
     '''
@@ -63,7 +65,7 @@ class Subscription(models.Model):
     SUBSCRIPTION_CHOICES = (
         ('N', 'Neighborhood association news'),
         ('A', 'Board of Adjustment notifications'),
-        ('T', 'TMAP (?) notifications'),
+        ('T', 'TMAP notifications'),
     )
 
     contactInfo = models.ForeignKey(ContactInfo)
