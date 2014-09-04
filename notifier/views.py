@@ -1,3 +1,17 @@
+'''Views for notifications
+
+    change user info
+        Check that nonce is correct, otherwise "unauthorized"
+        Add notification points / types
+        Remove notification points / types
+        Change contact address (email or phone)
+        Add contact type (email / phone)
+
+    incomingSMS
+        Handle incoming SMS messages
+
+'''
+
 class RequestContextMixin(object):
     def get_context_data(self, **kwargs):
         ctx = super(RequestContextMixin, self).get_context_data(**kwargs)
@@ -19,7 +33,7 @@ def changeSettings(request, nonce=""):
     '''
 
     #TODO: need some way to link an existing phone and a separate existing email into one record, but not a blocking issue
-
+    #TODO: implement user change view
 
 def incomingSMS(request):
     '''
@@ -27,5 +41,7 @@ def incomingSMS(request):
     :param request:
     :return:
     '''
+
+    #TODO: handle incoming messages
 
 

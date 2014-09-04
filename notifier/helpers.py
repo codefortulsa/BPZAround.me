@@ -1,3 +1,29 @@
+'''Notifier helper functions
+
+Flow:
+
+    requestSubscription
+        Given notification information, add a subscription record
+        and a contactinfo record if info doesn't already exist
+
+    requestURL (by user when change needed)
+        (?Generate a new security nonce and)
+        send the security nonce via the requested notification method
+        If the contact info doesn't exist, create it and proceed
+
+***Automated processes
+
+    doNotifications
+        Automated process to send notifications
+
+    sendText
+        Handle sending SMS message
+
+    (sendEmail not needed, since it is built into Django)
+
+
+'''
+
 from notifier.models import *
 
 
@@ -9,7 +35,7 @@ def requestURL(phoneNumber="", emailAddress=""):
     :param emailAddress:
     :return:
     '''
-
+    #TODO: implent requestURL
     # if both phoneNumber and emailAddress are blank, then throw an exception
 
 
@@ -22,6 +48,7 @@ def requestSubscription(longitude, latitude, phoneNumber="", emailAddress=""):
     :param emailAddress:
     :return:
     '''
+    #TODO: implement requestSubscription()
 
 
 
@@ -33,6 +60,7 @@ def SendText(phone, smstext):
     :param smstext:
     :return:
     '''
+    #TODO: implement SendText()
     client = TwilioRestClient(settings.TWILIO_SID, settings.TWILIO_AUTH)
 
     client.messages.create(
@@ -50,7 +78,7 @@ def doNotifications():
 
     :return:
     '''
-
+    #TODO: implement doNotifications()
     # check all notifications for nextNotification >= now
 
     #Set nextNotification to previous value plus default period (24 hours?)
