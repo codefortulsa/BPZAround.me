@@ -5,6 +5,6 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(r'^', include('bpz.urls', namespace='bpz')),
+    url(r'^', include('bpz.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
