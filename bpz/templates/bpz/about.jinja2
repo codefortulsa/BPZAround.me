@@ -20,3 +20,11 @@
 </div><!-- /.container -->
 
 {% endblock %}
+
+{% block body_js -%}
+
+<script>
+  d3.select("#map-canvas").classed("active",false)
+</script>
+{%- endblock body_js %} 
+

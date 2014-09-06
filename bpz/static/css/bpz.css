@@ -1,9 +1,26 @@
 body {
-  padding-top:70px;
+  overflow:scroll;
+  position:relative;
 }
-#map-canvas {
+
+#map-canvas.active {
   height:250px;
+  width:100%;
 }
+
+
+ul#list-group {
+  overflow:scroll;
+  top:'300px'
+
+}
+
 #btn-neighborhood {
   font-size:2em;
 }
+
+.case-path{
+ fill:blue; 
+}
+
+

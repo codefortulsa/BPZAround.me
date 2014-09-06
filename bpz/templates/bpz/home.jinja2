@@ -6,12 +6,6 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
-      <div id="map-canvas">
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
 	<h3>Welcome to the Neighborhood Plugin!</h3>
       <p class="lead"> This tool will help Tulsan's find their nearest neighborhood association and learn about pending zoning and planning cases in their area.  If you live in Tulsa and want to become more involved in your community then all you need to do is provide your location, to get started.</p>
     </div>
@@ -21,5 +15,16 @@
 {% endblock %}
 
 {% block body_js -%}
-<script src="{{ static('js/home.js') }}"></script>
+<script>
+jQuery(document).ready(function () {
+  d3.select("#map-canvas").classed("active",true)
+
+  bpz.location.ready.done(function (d) {
+    bpz.map.setView(bpz.location.pos,16)  
+  
+  })
+    
+});
+  
+</script>
 {%- endblock body_js %}
