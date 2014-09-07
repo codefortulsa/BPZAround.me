@@ -25,6 +25,11 @@ urlpatterns = patterns(
     url(r'^notify',
         TemplateView.as_view(template_name='bpz/notify.jinja2'),
         name='notify'),
+    url(r'^address',
+        TemplateView.as_view(template_name='bpz/address.jinja2'),
+        name='address'),
+
+
     url(r'^cases', cases, name='cases'),
     url(r'^hoa', hoa, name='home_owners'),
 
