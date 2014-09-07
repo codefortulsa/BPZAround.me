@@ -78,7 +78,7 @@ class Command(BaseCommand):
             case_type = None
             if 'BOA' in attr['case_id']:
                 domain = Case.DOMAIN_BOA
-                case_type = Case.DOMAIN_CHOICES[domain]
+                case_type = Case.NAME_BOA
             else:
                 case_type = parse_raw_value(feature['Type'].value)
             attr['case_type'] = case_type

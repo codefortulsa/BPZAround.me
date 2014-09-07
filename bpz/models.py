@@ -13,11 +13,13 @@ class Case(models.Model):
     SHAPE_Leng - derive from geometry
     SHAPE_Area - derive from geometry
     '''
+    NAME_BOA = "Board of Adjustment"
+    NAME_TMAPC = "Tulsa Metropolitan Area Planning Commission"
     DOMAIN_BOA = 0
     DOMAIN_TMAPC = 1
     DOMAIN_CHOICES = (
-        (DOMAIN_BOA, 'Board of Adjustment'),
-        (DOMAIN_TMAPC, 'Tulsa Metropolitan Area Planning Commission'),
+        (DOMAIN_BOA, NAME_BOA),
+        (DOMAIN_TMAPC, NAME_TMAPC),
     )
 
     STATUS_CHOICES = [(x, x) for x in (
@@ -28,7 +30,7 @@ class Case(models.Model):
     )]
 
     CASE_TYPE_CHOICES = [(x, x) for x in (
-        "Board of Adjustment",
+        NAME_BOA,
         "Corridor Minor Amendment",
         "Corridor Plan",
         "Lot Split",
@@ -47,6 +49,7 @@ class Case(models.Model):
     location = models.CharField(max_length=50)
     link = models.URLField()
     hearing_date = models.DateField()
+    # TODO: remove choices constraint from case_type field
     case_type = models.CharField(max_length=30, choices=CASE_TYPE_CHOICES)
     geom = models.GeometryField(srid=4326)
     objects = models.GeoManager()
