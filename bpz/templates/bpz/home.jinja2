@@ -3,7 +3,7 @@
 {% block head_title %}Neighborhood Plugin{% endblock %}
 
 {% block body_container %}
-<div class="container">
+<div id="intro_div" class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
 	<h3>Welcome to the Neighborhood Plugin!</h3>
@@ -17,14 +17,8 @@
 {% block body_js -%}
 <script>
 jQuery(document).ready(function () {
-  d3.select("#map-canvas").classed("active",true)
-
-  bpz.location.ready.done(function (d) {
-    bpz.map.setView(bpz.location.pos,16)  
-  
-  })
-    
-});
-  
+  bpz.activateMap()    
+  d3.select("#intro_div").style({"top":"300px","position":"absolute"});
+})  
 </script>
 {%- endblock body_js %}
