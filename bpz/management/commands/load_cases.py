@@ -16,14 +16,14 @@ Import BPZ case data
 '''
 
 
-def _parse_datetime(value):
+def parse_datetime(value):
     calendar = Calendar()
     raw_date = loads('"%s"' % value)
     timestamp = mktime(calendar.parseDateText(raw_date))
     return datetime.fromtimestamp(timestamp).date()
 
 
-def _parse_raw_value(raw_value):
+def parse_raw_value(raw_value):
     value = raw_value
     if '\r\n' in raw_value:
         stderr.write('Invalid Location %s' % repr(raw_value))
@@ -69,8 +69,8 @@ class Command(BaseCommand):
                 'status': feature['Status'].value,
                 'link': loads('"%s"' % feature['Link'].value),
             }
-            attr['location'] = _parse_raw_value(feature['Location'].value)
-            attr['hearing_date'] = _parse_datetime(feature['Date_'].value)
+            attr['location'] = parse_raw_value(feature['Location'].value)
+            attr['hearing_date'] = parse_datetime(feature['Date_'].value)
             attr['geom'] = GEOSGeometry(feature.geom.wkt)
 
             # Get the custom attribute values: case_type & domain
@@ -80,7 +80,7 @@ class Command(BaseCommand):
                 domain = Case.DOMAIN_BOA
                 case_type = Case.DOMAIN_CHOICES[domain]
             else:
-                case_type = _parse_raw_value(feature['Type'].value)
+                case_type = parse_raw_value(feature['Type'].value)
             attr['case_type'] = case_type
 
             filter_kwargs = {'object_id': attr['object_id'],
