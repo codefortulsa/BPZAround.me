@@ -1,0 +1,31 @@
+{% extends "bpz/base.jinja2" %}
+
+{% block content %}
+
+  <divlass="panel panel-default">
+    <div class="panel-heading">Cases</div>
+    <ul id="case-list" class="list-group"></ul>
+  </div>
+
+
+
+{% endblock content %}
+
+
+
+{% block body_js -%}
+  <script>
+  $(document).ready(function () {
+        bpz.activateMap()
+        bpz.api.cases().done(function (data) {          
+          bpz.updateMap(data)
+          bpz.lists.build ("#case-list",data)
+          bpz.lists.append.cases("#case-list")
+        }) //end get date
+    })//end doc ready
+  </script>
+{%- endblock body_js %}  
+  
+
+
+

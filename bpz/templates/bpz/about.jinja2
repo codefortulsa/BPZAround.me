@@ -3,7 +3,7 @@
 {% block head_title %}Neighborhood Plugin{% endblock %}
 
 {% block body_container %}
-<div class="container">
+<div id="info_container" class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
       <h2 class="page-header">About</h2>
@@ -20,3 +20,12 @@
 </div><!-- /.container -->
 
 {% endblock %}
+
+{% block body_js -%}
+
+<script>
+  d3.select("#map-canvas").classed("active",false)
+  d3.select("#info_container").style({"top":"50px","position":"absolute"})
+</script>
+{%- endblock body_js %} 
+

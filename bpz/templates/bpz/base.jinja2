@@ -10,6 +10,13 @@
     <link href="{{ static('vendor/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
     <link href="{{ static('css/bpz.css') }}" rel="stylesheet">
 
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js" charset="utf-8"></script>
+    <script src="{{ static('vendor/jquery/jquery-1.11.1.min.js') }}"></script>
+    <script src="{{ static('vendor/underscore-min.js') }}"></script>
+
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -33,22 +40,29 @@
           <ul class="nav navbar-nav">
             <li><!-- if home page li class="active"--><a href="/">Home</a></li>
             <li><!-- if about page li class="active"--><a href="/about">About</a></li>
+            <li><!-- if about page li class="active"--><a href="/cases">Cases</a></li>
+            <li><!-- if about page li class="active"--><a href="/hoa">HOA's'</a></li>
+            
           </ul>
         </div><!--/.nav-collapse -->
+      
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
+          <div id="map-canvas">
+          </div>
+        </div>
       </div>
     </div>
 
     {% block body_container -%}
     {% block body_title_elem -%}
-    <h1>{% block body_title %}TODO: set block title{% endblock %}</h1>
     {%- endblock body_title_elem %}
     {% block content %}{% endblock %}
     {%- endblock body_container %}
-
-    <script src="{{ static('vendor/jquery/jquery-1.11.1.min.js') }}"></script>
     <script src="{{ static('vendor/bootstrap-3.2.0-dist/js/bootstrap.min.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4JQW3kTKVpzBIroZ1mXguTPt2J1F1zXU"></script>
     <script src="{{ static('js/bpz.js') }}"></script>
+
     {% block body_js -%}
     {%- endblock body_js %}
   </body>
