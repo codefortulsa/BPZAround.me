@@ -1,0 +1,93 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 377,
+        "SHAPE_Leng": 535.759482681,
+        "SHAPE_Area": 17823.1955641,
+        "Case_": "BOA-21707",
+        "Status": "Continued",
+        "Location": "City Council Chambers",
+        "Link": "http:\\/\\/www.cityoftulsa-boa.org\\/boacases\\/BOA-21707.pdf",
+        "Date_": "July 8, 2014"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.88493095078849,
+              36.14665209767222
+            ],
+            [
+              -95.88493027999463,
+              36.14704947029269
+            ],
+            [
+              -95.88451343557959,
+              36.14704995952345
+            ],
+            [
+              -95.88451365330768,
+              36.14665211189618
+            ],
+            [
+              -95.88493095078849,
+              36.14665209767222
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 413,
+        "SHAPE_Leng": 520.118791476,
+        "SHAPE_Area": 16679.1215127,
+        "Case_": "BOA-21723",
+        "Status": "Approved",
+        "Location": "City Council Chambers\r\n\r\nCouncil Chambers",
+        "Link": "http:\\/\\/www.cityoftulsa-boa.org\\/boacases\\/BOA-21723.pdf",
+        "Date_": "June 10, 2014"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.94654918667433,
+              36.11165429307077
+            ],
+            [
+              -95.94670030762775,
+              36.111653862486534
+            ],
+            [
+              -95.94670413705157,
+              36.11205234701341
+            ],
+            [
+              -95.9465387920608,
+              36.112053012145346
+            ],
+            [
+              -95.94631509694659,
+              36.112053911307854
+            ],
+            [
+              -95.94631127582583,
+              36.11165497073487
+            ],
+            [
+              -95.94654918667433,
+              36.11165429307077
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
