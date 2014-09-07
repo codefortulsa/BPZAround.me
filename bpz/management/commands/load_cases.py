@@ -23,11 +23,13 @@ def parse_datetime(value):
     return datetime.fromtimestamp(timestamp).date()
 
 
-def parse_raw_value(raw_value):
+def parse_feature_raw_value(feature, field_name):
+    raw_value = feature[field_name].value
     value = raw_value
     if '\r\n' in raw_value:
-        stderr.write('Invalid Location %s' % repr(raw_value))
         value = raw_value.split('\r\n', 1)[0]
+        stderr.write('Invalid %s: "%s". Using first line: "%s"\n' %
+                     (field_name, repr(raw_value), value))
     return loads('"%s"' % value)
 
 
@@ -69,7 +71,7 @@ class Command(BaseCommand):
                 'status': feature['Status'].value,
                 'link': loads('"%s"' % feature['Link'].value),
             }
-            attr['location'] = parse_raw_value(feature['Location'].value)
+            attr['location'] = parse_feature_raw_value(feature, 'Location')
             attr['hearing_date'] = parse_datetime(feature['Date_'].value)
             attr['geom'] = GEOSGeometry(feature.geom.wkt)
 
@@ -80,7 +82,7 @@ class Command(BaseCommand):
                 domain = Case.DOMAIN_BOA
                 case_type = Case.NAME_BOA
             else:
-                case_type = parse_raw_value(feature['Type'].value)
+                case_type = parse_feature_raw_value(feature, 'Type')
             attr['case_type'] = case_type
 
             filter_kwargs = {'object_id': attr['object_id'],
