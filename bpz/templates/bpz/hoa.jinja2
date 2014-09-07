@@ -15,96 +15,13 @@
 
 {% block body_js -%}
   <script>
-    
-  
-    $(document).ready(function () {
-         d3.select("#map-canvas").classed("active",true)
-         
-        bpz.location.ready.done(function (d) {
-         
-          bpz.map.setView(bpz.location.pos,16)  
-  
-        })
-      
-
+  $(document).ready(function () {
+        bpz.activateMap()  
         bpz.api.hoa().done(function (data) {
-          
-          bpz.map.featureLayer.setGeoJSON(data);
-                    
-          var zoomCase = function (layer) {
-             bpz.map.fitBounds(layer.getBounds(),{maxZoom:16,animate:true})
-          }
-          
-          
-          bpz.map.featureLayer.on('click',function (e) {
-            // bpz.map.fitBounds(e.layer.getBounds(),{maxZoom:16,animate:true})
-            
-            var container = $('body,html'),
-                scrollTo = $('#object_id-'+e.layer.feature.properties.object_id);
-
-            container.animate({
-                scrollTop: scrollTo.offset().top - container.offset().top -325
-            })
-            
-            zoomCase(e.layer)
-
-          })
-          
-          var ul = d3.select("#case-list")
-          ul.style({position:'relative',top:'300px'})
-    
-          cases = ul.selectAll("li")
-            .data(data.features)
-            .enter()
-            .append("li")
-              .classed("list-group-item",true)
-            .append("div")
-              .classed("media",true)
-              .on("click",function (d,i) {
-                var obj_id = d.properties.object_id
-                layers = bpz.map.featureLayer.getLayers()
-                _.each(layers,function (element) {
-                  if (element.feature.properties.object_id === obj_id){
-                    zoomCase(element)    
-                  }
-                })
-              
-              })
-      
-          cases
-            .append("div")
-            .classed("pull-left",true)
-            .insert("svg")
-              .classed("media-object",true)
-              .attr({width:50,height:50})
-              .insert("path")
-                  .attr({
-                    d: d3.geo.path(),
-                    class: "leaflet-clickable",
-                    transform: function (d,i,e) {
-                      bb=this.getBBox()
-                      scale = (40/Math.max(bb.height,bb.width))
-                      tx = -bb.x*scale
-                      ty = -bb.y*scale
-                      return "translate("+tx+","+ty+") scale("+scale+")"
-                    },
-
-                  })
-          cases
-            .insert("div")
-              .classed("media-body",true)
-              .attr({id: function (d,i) {
-                return "object_id-"+d.properties.object_id
-              },})
-              .append("p").text(function (d) {
-                return "NEIGHBORHOOD: "+d.properties.name 
-              })
-              .append("p").text(function (d) {
-                return "ASSOCIATION: "+d.properties.hoa_name 
-              })
-
-          
-        }) //end get date
+          bpz.updateMap(data)
+          bpz.lists.build ("#case-list",data)
+          bpz.lists.append.hoa("#case-list")
+        }) //end get data
     })//end doc ready
   </script>
 {%- endblock body_js %}  
