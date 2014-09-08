@@ -3,6 +3,7 @@ var call_map, bpz, value, _fn, _i, _len;
 function Location() {
   var  dfd = new $.Deferred(),
     _pos ={},
+    _onMove = function (pos) {},
     options = {
       enableHighAccuracy: true
     },
@@ -12,6 +13,8 @@ function Location() {
       }
       dfd.reject()
     };
+  
+  this.on ={}
 
   Object.defineProperty(this, "lat", {
     get: function() {return _pos.coords ? _pos.coords.latitude : null; }
@@ -27,13 +30,18 @@ function Location() {
     },
     set: function(new_pos){ 
       _pos = new_pos
+      _onMove(pos_desc.get())
       dfd.resolve(this)
     }
   })
+  
+  this.on.move = function(move_function) {
+     _onMove = move_function 
+  }
 
   pos_desc = Object.getOwnPropertyDescriptor(this, 'pos');
 
-  this.WatchID = navigator.geolocation.watchPosition(pos_desc.set, fail, options);
+  WatchID = navigator.geolocation.watchPosition(pos_desc.set, fail, options);
 
   this.ready = dfd.promise()
 
@@ -68,10 +76,14 @@ bpz = {
     })
 
   },
+  updatePosition: function () {
+     bpz.map.setView(bpz.location.pos,16)  
+  },
   activateMap: function () {
     d3.select("#map-canvas").classed("active",true)
     bpz.location.ready.done(function (d) {
-      bpz.map.setView(bpz.location.pos,16)  
+      bpz.location.on.move(bpz.updatePosition)
+      bpz.updatePosition()  
     })
   },
   layers: {
