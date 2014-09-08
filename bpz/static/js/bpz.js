@@ -30,13 +30,15 @@ function Location() {
     },
     set: function(new_pos){ 
       _pos = new_pos
-      _onMove(pos_desc.get())
+      if (_onMove){
+        _onMove(pos_desc.get())
+      }
       dfd.resolve(this)
     }
   })
   
-  this.on.move = function(move_function) {
-     _onMove = move_function 
+  this.on.move = function(fn) {
+     _onMove = fn 
   }
 
   pos_desc = Object.getOwnPropertyDescriptor(this, 'pos');
@@ -61,29 +63,24 @@ bpz = {
   },
   updateMap : function (data) {
     bpz.map.featureLayer.setGeoJSON(data);
-
     bpz.map.featureLayer.on('click',function (e) {
-
       var container = $('body,html'),
           scrollTo = $('#object_id-'+e.layer.feature.properties.object_id);
-
       container.animate({
           scrollTop: scrollTo.offset().top - container.offset().top -325
       })
-
       bpz.layers.zoom(e.layer)
-
     })
-
   },
   updatePosition: function () {
-     bpz.map.setView(bpz.location.pos,16)  
+     bpz.map.setView(bpz.location.pos)  
   },
   activateMap: function () {
     d3.select("#map-canvas").classed("active",true)
     bpz.location.ready.done(function (d) {
-      bpz.location.on.move(bpz.updatePosition)
-      bpz.updatePosition()  
+      // bpz.location.on.move(bpz.updatePosition)
+      bpz.updatePosition()
+      bpz.map.setZoom(14)  
     })
   },
   layers: {
