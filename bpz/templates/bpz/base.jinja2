@@ -4,17 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block head_title %}TODO: set block head_title{% endblock %}</title>
+    <title>{% block head_title %}Neighborhood Plugin{% endblock %}</title>
 
     <link href="{{ static('vendor/bootstrap-3.2.0-dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ static('vendor/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
     <link href="{{ static('css/bpz.css') }}" rel="stylesheet">
-
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js" charset="utf-8"></script>
-    <script src="{{ static('vendor/jquery/jquery-1.11.1.min.js') }}"></script>
-    <script src="{{ static('vendor/underscore-min.js') }}"></script>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -60,6 +55,11 @@
     {%- endblock body_title_elem %}
     {% block content %}{% endblock %}
     {%- endblock body_container %}
+
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js" charset="utf-8"></script>
+    <script src="{{ static('vendor/jquery/jquery-1.11.1.min.js') }}"></script>
+    <script src="{{ static('vendor/underscore/underscore-min.js') }}"></script>
     <script src="{{ static('vendor/bootstrap-3.2.0-dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ static('js/bpz.js') }}"></script>
 
