@@ -1,48 +1,53 @@
 var call_map, bpz, value, _fn, _i, _len;
 
-
-
-//TODO: replace 
 function Location() {
-  var options = {
-    enableHighAccuracy: true
-  },
-    dfd = new $.Deferred(),
-    inner_pos = {}
-  moved = function(pos) {
-    inner_pos = pos || {};
-    dfd.resolve(this)
-  },
-  fail = function(err) {
-    if (err) {
-      console.warn('ERROR(' + err.code + '): ' + err.message);
-    }
-    dfd.reject()
-  };
-
-  this.__defineGetter__("lat", function() {
-    return inner_pos.coords ? inner_pos.coords.latitude : null;
-  });
-
-  this.__defineGetter__("lng", function() {
-    return inner_pos.coords ? inner_pos.coords.longitude : null;
-  });
-
-  this.__defineGetter__("pos", function() {
-    return {
-      lng: this.lng,
-      lat: this.lat
+  var  dfd = new $.Deferred(),
+    _pos ={},
+    _onMove = function (pos) {},
+    options = {
+      enableHighAccuracy: true
+    },
+    fail = function(err) {
+      if (err) {
+        console.warn('ERROR(' + err.code + '): ' + err.message);
+      }
+      dfd.reject()
     };
-  });
-  this.position = inner_pos;
+  
+  this.on ={}
 
-  this.WatchID = navigator.geolocation.watchPosition(moved, fail, options);
+  Object.defineProperty(this, "lat", {
+    get: function() {return _pos.coords ? _pos.coords.latitude : null; }
+  })
+
+  Object.defineProperty(this, "lng", {
+    get: function() {return _pos.coords ? _pos.coords.longitude : null; }
+  })
+
+  Object.defineProperty(this, "pos", {
+    get: function() {
+      return { lng: _pos.coords.longitude, lat: _pos.coords.latitude}; 
+    },
+    set: function(new_pos){ 
+      _pos = new_pos
+      if (_onMove){
+        _onMove(pos_desc.get())
+      }
+      dfd.resolve(this)
+    }
+  })
+  
+  this.on.move = function(fn) {
+     _onMove = fn 
+  }
+
+  pos_desc = Object.getOwnPropertyDescriptor(this, 'pos');
+
+  WatchID = navigator.geolocation.watchPosition(pos_desc.set, fail, options);
 
   this.ready = dfd.promise()
 
 }
-
-
 
 bpz = {
   _map:false,
@@ -58,26 +63,24 @@ bpz = {
   },
   updateMap : function (data) {
     bpz.map.featureLayer.setGeoJSON(data);
-
     bpz.map.featureLayer.on('click',function (e) {
-
       var container = $('body,html'),
           scrollTo = $('#object_id-'+e.layer.feature.properties.object_id);
-
       container.animate({
           scrollTop: scrollTo.offset().top - container.offset().top -325
       })
-
       bpz.layers.zoom(e.layer)
-
     })
-
+  },
+  updatePosition: function () {
+     bpz.map.setView(bpz.location.pos)  
   },
   activateMap: function () {
     d3.select("#map-canvas").classed("active",true)
     bpz.location.ready.done(function (d) {
-      bpz.map.setView(bpz.location.pos,16)  
-
+      // bpz.location.on.move(bpz.updatePosition)
+      bpz.updatePosition()
+      bpz.map.setZoom(14)  
     })
   },
   layers: {
