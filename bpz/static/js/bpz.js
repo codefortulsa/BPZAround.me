@@ -11,7 +11,7 @@ function Location() {
       if (err) {
         console.warn('ERROR(' + err.code + '): ' + err.message);
       }
-      dfd.reject()
+      dfd.reject(err)
     };
   
   this.on ={}
@@ -49,6 +49,8 @@ function Location() {
 
 }
 
+L.mapbox.accessToken ='pk.eyJ1IjoiamR1bmdhbiIsImEiOiJlOTl6MFpNIn0.-3o5vIOCjkfXd-7ibZrb8A'
+
 bpz = {
   _map:false,
   api: {},
@@ -56,10 +58,23 @@ bpz = {
   get map() {
     if (!bpz._map){
       //TODO: Move access token into environment variable 
-      L.mapbox.accessToken ='pk.eyJ1IjoiamR1bmdhbiIsImEiOiJlOTl6MFpNIn0.-3o5vIOCjkfXd-7ibZrb8A'
       bpz._map=L.mapbox.map('map-canvas', 'jdungan.jbbebonl').setView([36.1587336,-95.9940543],12); 
     }
     return bpz._map
+  },
+  stored:{
+    get currentLatLng(){
+      return  JSON.parse(sessionStorage.getItem("latlng"))
+    },
+    set currentLatLng(new_latlng){
+      sessionStorage.setItem("latlng",JSON.stringify(new_latlng))
+    },
+    get streetAddress(){
+      return  JSON.parse(sessionStorage.getItem("streetAddress"))
+    },
+    set streetAddress(address){
+      sessionStorage.setItem("streetAddress",JSON.stringify(address))
+    }
   },
   updateMap : function (data) {
     bpz.map.featureLayer.setGeoJSON(data);
@@ -72,16 +87,30 @@ bpz = {
       bpz.layers.zoom(e.layer)
     })
   },
-  updatePosition: function () {
-     bpz.map.setView(bpz.location.pos)  
+  updatePosition: function (new_latlng) {
+     bpz.map.setView(new_latlng)
+     bpz.map.setZoom(14) 
   },
   activateMap: function () {
     d3.select("#map-canvas").classed("active",true)
-    bpz.location.ready.done(function (d) {
-      // bpz.location.on.move(bpz.updatePosition)
-      bpz.updatePosition()
-      bpz.map.setZoom(14)  
-    })
+    
+    cL = bpz.stored.currentLatLng
+    
+    if (cL){
+       bpz.updatePosition(cL)
+      
+    } else {
+      bpz.location.ready
+        .done(function () {
+          bpz.stored.currentLatLng=bpz.location.pos
+          bpz.updatePosition(bpz.location.pos)
+        })
+        .fail(function (err) {
+          if (err.code===1){
+            $(".ask").removeClass("hidden")
+          } 
+        })
+    }
   },
   layers: {
     zoom: function (layer) {

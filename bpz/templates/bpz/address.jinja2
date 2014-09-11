@@ -2,7 +2,54 @@
 
 
 {% block body_container -%}
-  <div class="container">
-    <p> ADDRESS FORM HERE</p>
+  <div id="address_form" class="container">
+    <form role="form">
+      <div class="form-group">
+        <label for="streetAddress">Street Address</label>
+        <input type="email" class="form-control" id="streetAddress" placeholder="e.g. 123 South Euclid">
+      </div>
+      <div class="form-group">
+        <p class="form-control-static">Tulsa, OK
+        <input type="emaizipCodel" class="form-control" id="zipCode" placeholder="zip code ...">
+        </p>
+        <button id="set_address"type="button" class="btn btn-primary">
+          Set this as my location
+           <span class="glyphicon glyphicon-map-marker"></span>
+           </button
+      </div>
+    </div>
   </div>
-  {% endblock body_container %}
+{% endblock body_container %}
+  
+{% block body_js -%}
+
+<script>
+
+  addr = bpz.stored.streetAddress
+  
+  if (addr){
+    if (addr.street){
+      $('#streetAddress').val(addr.street)
+    }
+    if(addr.zip){
+      $('#zipCode').val(addr.zip)
+    }
+  }
+
+  $("#set_address").on("click",function () {
+    
+    addr={street:$('#streetAddress').val(),zip:$('#zipCode').val()}
+    bpz.stored.streetAddress=addr
+    gcdr = L.mapbox.geocoder("mapbox.places-v1")
+    gcdr.query(addr.street+" Tulsa, OK"+addr.zip,function (err,data) {
+       bpz.stored.currentLatLng = data.latlng
+       window.location.href = "/"
+    }) 
+        
+  })
+  d3.select("#map-canvas").classed("active",false)
+  d3.select("#address_form").style({"top":"75px","position":"absolute"})
+  
+  
+</script>
+{%- endblock body_js %} 

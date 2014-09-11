@@ -33,11 +33,11 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><!-- if home page li class="active"--><a href="/">Home</a></li>
-            <li><!-- if about page li class="active"--><a href="/about">About</a></li>
-            <li><!-- if about page li class="active"--><a href="/cases">Cases</a></li>
-            <li><!-- if about page li class="active"--><a href="/hoa">HOA's'</a></li>
-            
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/cases">Cases</a></li>
+            <li><a href="/hoa">HOA's</a></li>
+            <li><a href="/address">Set Address</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       
@@ -56,12 +56,12 @@
     {% block content %}{% endblock %}
     {%- endblock body_container %}
 
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js" charset="utf-8"></script>
-    <script src="{{ static('vendor/jquery/jquery-1.11.1.min.js') }}"></script>
-    <script src="{{ static('vendor/underscore/underscore-min.js') }}"></script>
-    <script src="{{ static('vendor/bootstrap-3.2.0-dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ static('js/bpz.js') }}"></script>
+      <script src='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js'></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.13/d3.min.js" charset="utf-8"></script>
+      <script src="{{ static('vendor/jquery/jquery-1.11.1.min.js') }}"></script>
+      <script src="{{ static('vendor/underscore/underscore-min.js') }}"></script>
+      <script src="{{ static('vendor/bootstrap-3.2.0-dist/js/bootstrap.min.js') }}"></script>
+      <script src="{{ static('js/bpz.js') }}"></script>
 
     {% block body_js -%}
     {%- endblock body_js %}
