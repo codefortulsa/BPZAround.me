@@ -15,7 +15,7 @@
         <button id="set_address"type="button" class="btn btn-primary">
           Set this as my location
            <span class="glyphicon glyphicon-map-marker"></span>
-           </button
+         </button>
       </div>
     </div>
   </div>
@@ -41,7 +41,10 @@
     addr={street:$('#streetAddress').val(),zip:$('#zipCode').val()}
     bpz.stored.streetAddress=addr
     gcdr = L.mapbox.geocoder("mapbox.places-v1")
-    gcdr.query(addr.street+" Tulsa, OK"+addr.zip,function (err,data) {
+    
+    st = addr.street ? addr.street +" Tulsa, OK " : ""
+
+    gcdr.query(st+addr.zip,function (err,data) {
        bpz.stored.currentLatLng = data.latlng
        window.location.href = "/"
     }) 
