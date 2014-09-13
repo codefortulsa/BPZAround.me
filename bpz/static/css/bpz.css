@@ -9,9 +9,22 @@ body {
   width:100%;
 }
 
+ul#list-group {
+  overflow:scroll;
+  top:'300px';
+}
+
+ul#case-list {
+  overflow:scroll;
+  top:'300px';
+}
 
 #btn-neighborhood {
   font-size:2em;
 }
 
-
+.scroll-area {
+	height: 350px;
+	position: relative;
+	overflow: auto;
+}

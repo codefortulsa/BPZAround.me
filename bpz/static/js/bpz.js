@@ -116,7 +116,7 @@ var bpz = {
   lists:{
     build: function (selector,data) {
       var ul = d3.select(selector)
-      ul.style({position:'relative',top:'300px'})
+      //ul.style({position:'relative',top:'300px'})
       
       //create an li for all features
       li = ul.selectAll("li")
