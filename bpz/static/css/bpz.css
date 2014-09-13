@@ -10,9 +10,9 @@ body {
 }
 
 
-ul#list-group {
+ul#case-list {
   overflow:scroll;
-  top:'300px'
+  top:'300px';
 
 }
 
@@ -23,5 +23,12 @@ ul#list-group {
 .case-path{
  fill:blue; 
 }
+
+.scroll-area {
+	height: 350px;
+	position: relative;
+	overflow: auto;
+}
+
 
 
