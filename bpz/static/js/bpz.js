@@ -1,4 +1,3 @@
-var call_map, bpz, value, _fn, _i, _len;
 
 function Location() {
   var  dfd = new $.Deferred(),
@@ -38,7 +37,7 @@ function Location() {
   })
   
   this.on.move = function(fn) {
-     _onMove = fn 
+     _onMove = fn; 
   }
 
   pos_desc = Object.getOwnPropertyDescriptor(this, 'pos');
@@ -49,31 +48,31 @@ function Location() {
 
 }
 
+//TODO: Move access token into environment variable 
 L.mapbox.accessToken ='pk.eyJ1IjoiamR1bmdhbiIsImEiOiJlOTl6MFpNIn0.-3o5vIOCjkfXd-7ibZrb8A'
 
-bpz = {
+var bpz = {
   _map:false,
   api: {},
   'location': new Location(),
   get map() {
     if (!bpz._map){
-      //TODO: Move access token into environment variable 
       bpz._map=L.mapbox.map('map-canvas', 'jdungan.jbbebonl').setView([36.1587336,-95.9940543],12); 
     }
     return bpz._map
   },
   stored:{
     get currentLatLng(){
-      return  JSON.parse(sessionStorage.getItem("latlng"))
+      return  JSON.parse(sessionStorage.getItem("latlng"));
     },
     set currentLatLng(new_latlng){
-      sessionStorage.setItem("latlng",JSON.stringify(new_latlng))
+      sessionStorage.setItem("latlng",JSON.stringify(new_latlng));
     },
     get streetAddress(){
-      return  JSON.parse(sessionStorage.getItem("streetAddress"))
+      return  JSON.parse(sessionStorage.getItem("streetAddress"));
     },
     set streetAddress(address){
-      sessionStorage.setItem("streetAddress",JSON.stringify(address))
+      sessionStorage.setItem("streetAddress",JSON.stringify(address));
     }
   },
   updateMap : function (data) {
@@ -84,37 +83,34 @@ bpz = {
       container.animate({
           scrollTop: scrollTo.offset().top - container.offset().top -325
       })
-      bpz.layers.zoom(e.layer)
+      bpz.layers.zoom(e.layer);
     })
   },
   updatePosition: function (new_latlng) {
-     bpz.map.setView(new_latlng)
-     bpz.map.setZoom(14) 
+     bpz.map.setView(new_latlng);
+     bpz.map.setZoom(14);
   },
   activateMap: function () {
-    d3.select("#map-canvas").classed("active",true)
-    
-    cL = bpz.stored.currentLatLng
-    
+    var cL = bpz.stored.currentLatLng;
+    d3.select("#map-canvas").classed("active",true);
     if (cL){
-       bpz.updatePosition(cL)
-      
+       bpz.updatePosition(cL);
     } else {
       bpz.location.ready
         .done(function () {
-          bpz.stored.currentLatLng=bpz.location.pos
-          bpz.updatePosition(bpz.location.pos)
+          bpz.stored.currentLatLng=bpz.location.pos;
+          bpz.updatePosition(bpz.location.pos);
         })
         .fail(function (err) {
           if (err.code===1){
-            $(".ask").removeClass("hidden")
+            $(".ask").removeClass("hidden");
           } 
-        })
+        });
     }
   },
   layers: {
     zoom: function (layer) {
-             bpz.map.fitBounds(layer.getBounds(),{maxZoom:16,animate:true})
+             bpz.map.fitBounds(layer.getBounds(),{maxZoom:16,animate:true});
           }
   },
   lists:{
@@ -138,7 +134,7 @@ bpz = {
                 bpz.layers.zoom(element)    
               }
             })
-          })
+          });
 
       // add a thumbnail of the feature 
       li
@@ -152,30 +148,28 @@ bpz = {
                 d: d3.geo.path(),
                 class: "leaflet-clickable",
                 transform: function (d,i,e) {
-                  bb=this.getBBox()
-                  scale = (40/Math.max(bb.height,bb.width))
-                  tx = -bb.x*scale
-                  ty = -bb.y*scale
-                  return "translate("+tx+","+ty+") scale("+scale+")"
+                  var bb=this.getBBox(),
+                  scale = (40/Math.max(bb.height,bb.width)),
+                  tx = -bb.x*scale,
+                  ty = -bb.y*scale;
+                  return "translate("+tx+","+ty+") scale("+scale+")";
                 },
-
-              })
-      
+              });
     },
     append:{
       hoa: function (selector) {
-          li = d3.selectAll(selector+" li div.media")
+          li = d3.selectAll(selector+" li div.media");
           li  
             .insert("div")
               .classed("media-body",true)
               .attr({id: function (d,i) {
-                return "object_id-"+d.properties.object_id
+                return "object_id-"+d.properties.object_id;
               },})
               .append("p").text(function (d) {
-                return "NEIGHBORHOOD: "+d.properties.name
+                return "NEIGHBORHOOD: "+d.properties.name;
               })
               .append("p").text(function (d) {
-                return "ASSOCIATION: "+d.properties.hoa_name
+                return "ASSOCIATION: "+d.properties.hoa_name;
               })
       },
       cases: function (selector) {
@@ -184,28 +178,28 @@ bpz = {
           .insert("div")
             .classed("media-body",true)
             .attr({id: function (d,i) {
-              return "object_id-"+d.properties.object_id
+              return "object_id-"+d.properties.object_id;
             },})
             .append("p").text(function (d) {
-              return "STATUS: "+d.properties.status 
+              return "STATUS: "+d.properties.status; 
             })
             .append("p").text(function (d) {
-              return "CASE TYPE: "+d.properties.case_type 
+              return "CASE TYPE: "+d.properties.case_type; 
             })
             .append("p").text(function (d) {
-              return "HEARING DATE: "+d.properties.hearing_date 
+              return "HEARING DATE: "+d.properties.hearing_date;
             })
             .append("p").text(function (d) {
-              return "LOCATION: "+d.properties.location 
+              return "LOCATION: "+d.properties.location;
             })
             .append("p").text("APPLICATION: ")
             .append("a").text(function (d) {
-              return d.properties.case_id 
+              return d.properties.case_id;
             })
             .attr({
               target:"_blank",
               href: function (d) {
-              return d.properties.link
+              return d.properties.link;
               },
             })
       }
@@ -214,26 +208,29 @@ bpz = {
   }
 };
 
-bpz.api.call = function(resource, ajax_params) {
-  ajax_params = ajax_params || {};
-  return $.ajax({
-    type: "get",
-    url: "/api" + resource,
-    data: ajax_params,
-    dataType: "json"
-  });
-};
-
-call_map = [["cases", "/cases"],["hoa", "/hoas"]];
-
-_fn = function(value) {
-  return bpz.api[value[0]] = function(params) {
-    return bpz.api.call(value[1], params);
+//self executing to append api without junking up global namespace
+(function (api) {
+  var value, _fn, _i, _len,
+  call_map = [["cases", "/cases"],["hoa", "/hoas"]],
+  call = function(resource, ajax_params) {
+    ajax_params = ajax_params || {};
+    return $.ajax({
+      type: "get",
+      url: "/api" + resource,
+      data: ajax_params,
+      dataType: "json"
+    });
   };
-};
 
-for (_i = 0, _len = call_map.length; _i < _len; _i++) {
-  value = call_map[_i];
-  _fn(value);
-}
+  _fn = function(value) {
+    return api[value[0]] = function(params) {
+      return call(value[1], params);
+    };
+  };
+
+  for (_i = 0, _len = call_map.length; _i < _len; _i++) {
+    value = call_map[_i];
+    _fn(value);
+  }
+})(bpz.api)
 
