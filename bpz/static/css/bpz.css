@@ -1,7 +1,5 @@
 body {
 	padding-top: 70px;
-  overflow:scroll;
-  position:relative;
 }
 
 #map-canvas.active {
@@ -9,14 +7,8 @@ body {
   width:100%;
 }
 
-ul#list-group {
-  overflow:scroll;
-  top:'300px';
-}
-
 ul#case-list {
   overflow:scroll;
-  top:'300px';
 }
 
 #btn-neighborhood {

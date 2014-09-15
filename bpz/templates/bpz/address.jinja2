@@ -2,57 +2,77 @@
 
 
 {% block body_container -%}
-  <div id="address_form" class="container">
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
     <form role="form">
       <div class="form-group">
-        <label for="streetAddress">Street Address</label>
-        <input type="email" class="form-control" id="streetAddress" placeholder="e.g. 123 South Euclid">
+        <label for="streetAddress">Street Address</label> <input type="email" class="form-control" id="streetAddress" placeholder="e.g. 123 South Euclid">
       </div>
       <div class="form-group">
-        <p class="form-control-static">Tulsa, OK
-        <input type="emaizipCodel" class="form-control" id="zipCode" placeholder="zip code ...">
+        <p class="form-control-static">
+          <input type="emaizipcodel" class="form-control" id="zipCode" placeholder="zip code ...">
         </p>
-        <button id="set_address"type="button" class="btn btn-primary">
-          Set this as my location
-           <span class="glyphicon glyphicon-map-marker"></span>
-         </button>
       </div>
+    </form>
+  </div><!--end col -->
+    <div class="btn-group">
+      <button id="use_address" type="button" class="btn btn-primary btn-block">Use this address</button>
+      <button id="use_gps" type="button" class="btn btn-success btn-block">Use my GPS</button>
     </div>
-  </div>
+  
+</div><!--end row -->
+
+
+    <div class="ask hidden">
+      <div class="alert-info" role="alert">Sorry.  You have not allowed us to use your GPS.  You'll need to clear your browser settings.</div>  
+    </div>
+    
+    
 {% endblock body_container %}
   
 {% block body_js -%}
 
 <script>
 
-  addr = bpz.stored.streetAddress
-  
-  if (addr){
-    if (addr.street){
-      $('#streetAddress').val(addr.street)
-    }
-    if(addr.zip){
-      $('#zipCode').val(addr.zip)
-    }
-  }
-
-  $("#set_address").on("click",function () {
-    
-    addr={street:$('#streetAddress').val(),zip:$('#zipCode').val()}
-    bpz.stored.streetAddress=addr
-    gcdr = L.mapbox.geocoder("mapbox.places-v1")
-    
-    st = addr.street ? addr.street +" Tulsa, OK " : ""
-
-    gcdr.query(st+addr.zip,function (err,data) {
-       bpz.stored.currentLatLng = data.latlng
-       window.location.href = "/"
-    }) 
-        
-  })
   d3.select("#map-canvas").classed("active",false)
-  d3.select("#address_form").style({"top":"75px","position":"absolute"})
+
+  jQuery(document).ready(function () {
+    var addr = bpz.stored.streetAddress;
   
+    if (addr){
+      if (addr.street){
+        $('#streetAddress').val(addr.street)
+      }
+      if(addr.zip){
+        $('#zipCode').val(addr.zip)
+      }
+    }
+  }); //end doc ready 
+
+  $("#use_address").on("click",function () {    
+    addr={street:$('#streetAddress').val(),zip:$('#zipCode').val()}
+    bpz.stored.streetAddress=addr    
+    st = addr.street ? addr.street : ""
+    bpz.geocoder.query(st+addr.zip,function (err,data) {
+       bpz.stored.currentLatLng = data.latlng
+       window.location.href = "/cases"
+    })
+  });
+  
+  $("#use_gps").on("click",function () {
+    var gps_location =  new Location();
+    
+    gps_location.ready
+        .done(function () {
+          bpz.stored.currentLatLng=gps_location.pos;
+          window.location.href = "/cases"
+        })
+        .fail(function (err) {
+          if (err.code===1){
+            $(".ask").removeClass("hidden");
+          } 
+        });
+  });
   
 </script>
 {%- endblock body_js %} 

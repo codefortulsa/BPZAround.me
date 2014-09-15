@@ -15,12 +15,15 @@ function Location() {
   
   this.on ={}
 
+
+  //set default location
+
   Object.defineProperty(this, "lat", {
-    get: function() {return _pos.coords ? _pos.coords.latitude : null; }
+    get: function() {return _pos.coords ? _pos.coords.latitude : 36.1587336; }
   })
 
   Object.defineProperty(this, "lng", {
-    get: function() {return _pos.coords ? _pos.coords.longitude : null; }
+    get: function() {return _pos.coords ? _pos.coords.longitude : -95.9940543; }
   })
 
   Object.defineProperty(this, "pos", {
@@ -54,13 +57,14 @@ L.mapbox.accessToken ='pk.eyJ1IjoiamR1bmdhbiIsImEiOiJlOTl6MFpNIn0.-3o5vIOCjkfXd-
 var bpz = {
   _map:false,
   api: {},
-  'location': new Location(),
+  'location':null,
   get map() {
     if (!bpz._map){
-      bpz._map=L.mapbox.map('map-canvas', 'jdungan.jbbebonl').setView([36.1587336,-95.9940543],12); 
+      bpz._map=L.mapbox.map('map-canvas', 'jdungan.jbbebonl'); 
     }
     return bpz._map
   },
+  geocoder:L.mapbox.geocoder("mapbox.places-v1"),
   stored:{
     get currentLatLng(){
       return  JSON.parse(sessionStorage.getItem("latlng"));
@@ -78,35 +82,18 @@ var bpz = {
   updateMap : function (data) {
     bpz.map.featureLayer.setGeoJSON(data);
     bpz.map.featureLayer.on('click',function (e) {
-      var container = $('body,html'),
-          scrollTo = $('#object_id-'+e.layer.feature.properties.object_id);
+      var container = $('#case-panel'),
+          scrollTo = $('#object_id-'+e.layer.feature.properties.object_id);          
       container.animate({
-          scrollTop: scrollTo.offset().top - container.offset().top -325
+          scrollTop: scrollTo.offset().top-container.offset().top+container.scrollTop()-10
       })
       bpz.layers.zoom(e.layer);
     })
   },
-  updatePosition: function (new_latlng) {
-     bpz.map.setView(new_latlng);
-     bpz.map.setZoom(14);
-  },
   activateMap: function () {
-    var cL = bpz.stored.currentLatLng;
     d3.select("#map-canvas").classed("active",true);
-    if (cL){
-       bpz.updatePosition(cL);
-    } else {
-      bpz.location.ready
-        .done(function () {
-          bpz.stored.currentLatLng=bpz.location.pos;
-          bpz.updatePosition(bpz.location.pos);
-        })
-        .fail(function (err) {
-          if (err.code===1){
-            $(".ask").removeClass("hidden");
-          } 
-        });
-    }
+    bpz.map.setView(bpz.stored.currentLatLng);
+    bpz.map.setZoom(14);
   },
   layers: {
     zoom: function (layer) {
@@ -116,14 +103,16 @@ var bpz = {
   lists:{
     build: function (selector,data) {
       var ul = d3.select(selector)
-      //ul.style({position:'relative',top:'300px'})
       
       //create an li for all features
-      li = ul.selectAll("li")
+      li = ul.selectAll("li")      
         .data(data.features)
         .enter()
         .append("li")
           .classed("list-group-item",true)
+          .attr({id: function (d,i) {
+            return "object_id-"+d.properties.object_id;
+          },})  
         .append("div")
           .classed("media",true)
           .on("click",function (d,i) {
@@ -142,16 +131,16 @@ var bpz = {
         .classed("pull-left",true)
         .insert("svg")
           .classed("media-object",true)
-          .attr({width:50,height:50})
+          .attr({width:60,height:60})
           .insert("path")
               .attr({
                 d: d3.geo.path(),
                 class: "leaflet-clickable",
                 transform: function (d,i,e) {
                   var bb=this.getBBox(),
-                  scale = (40/Math.max(bb.height,bb.width)),
-                  tx = -bb.x*scale,
-                  ty = -bb.y*scale;
+                  scale = (45/Math.max(bb.height,bb.width)),
+                  tx = 10-bb.x*scale,
+                  ty = 10-bb.y*scale;
                   return "translate("+tx+","+ty+") scale("+scale+")";
                 },
               });
@@ -162,9 +151,6 @@ var bpz = {
           li  
             .insert("div")
               .classed("media-body",true)
-              .attr({id: function (d,i) {
-                return "object_id-"+d.properties.object_id;
-              },})
               .append("p").text(function (d) {
                 return "NEIGHBORHOOD: "+d.properties.name;
               })
@@ -177,9 +163,6 @@ var bpz = {
         li
           .insert("div")
             .classed("media-body",true)
-            .attr({id: function (d,i) {
-              return "object_id-"+d.properties.object_id;
-            },})
             .append("p").text(function (d) {
               return "STATUS: "+d.properties.status; 
             })
@@ -233,4 +216,3 @@ var bpz = {
     _fn(value);
   }
 })(bpz.api)
-
