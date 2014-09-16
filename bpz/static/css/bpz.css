@@ -13,7 +13,14 @@ body {
 ul#case-list {
   overflow:scroll;
   top:'300px';
+}
 
+ul#case-list > li:hover {
+	background-color: #f5f5f5;
+}
+
+ul#case-list > li:active {
+	
 }
 
 #btn-neighborhood {
@@ -30,5 +37,8 @@ ul#case-list {
 	overflow: auto;
 }
 
+.row-buffer {
+	margin-top: 20px;
+}
 
 

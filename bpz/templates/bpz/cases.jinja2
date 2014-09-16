@@ -1,16 +1,23 @@
 {% extends "bpz/base.jinja2" %}
 
 {% block content %}
-
-	<div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
-  	<div class="panel panel-default">
-    	<div class="panel-heading">
-				<h3 class="panel-title">Cases</h3>
+	<div class="container">
+		
+		<div class="row row-buffer">
+			
+  		<div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
+  			<div class="panel panel-default">
+    			<div class="panel-heading">
+						<h3 class="panel-title">Cases</h3>
+					</div>
+					
+					<div class="scroll-area" data-spy="scroll" >
+    				<ul id="case-list" class="list-group"></ul>
+				</div>
 			</div>
-			<div class="panel-body scroll-area" data-spy="scroll" >
-    		<ul id="case-list" class="list-group"></ul>
-			</div>
-  	</div>
+			
+		</div>
+		
 	</div>
 
 {% endblock content %}

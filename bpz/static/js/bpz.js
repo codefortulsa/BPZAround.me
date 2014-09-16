@@ -65,7 +65,7 @@ bpz = {
     bpz.map.featureLayer.setGeoJSON(data);
     bpz.map.featureLayer.on('click',function (e) {
       var container = $('body,html'),
-          scrollTo = $('#object_id-'+e.layer.feature.properties.object_id);
+          scrollTo = $('#object_id-'+e.layer.feature.properties.object_id).parent();
       container.animate({
           scrollTop: scrollTo.offset().top - container.offset().top -325
       })
