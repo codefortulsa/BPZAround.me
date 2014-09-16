@@ -9,8 +9,6 @@ from django.contrib.gis.db import models
 from django.conf import settings
 
 
-
-
 @python_2_unicode_compatible
 def newNonce(self=None):
     '''
@@ -70,8 +68,9 @@ class Subscription(models.Model):
 
     contactInfo = models.ForeignKey(ContactInfo)
     subscriptionType = models.CharField(max_length=1, null=False, choices=SUBSCRIPTION_CHOICES)
-    geom = models.GeometryField(srid=4326)
+    geom = models.PointField(srid=4326)
     nextNotification = models.DateTimeField(auto_now=True)
+    objects = models.GeoManager()
 
     class Meta:
         verbose_name = 'User subscription'
