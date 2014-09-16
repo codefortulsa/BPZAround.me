@@ -60,11 +60,11 @@ def requestURL(phoneNumber="", emailAddress=""):
     contact.nonce = newNonce()
     contact.save()
 
-    rText = "Change your settings: http://tulsa.center/change/%s"%contact.nonce
+    rText = "Change your settings: http://zoningcases.com/update/%s"%contact.nonce
     if emailAddress is not None:
-        send_mail("Change your settings on BPZAround.me",
+        send_mail("Change your settings on zoningcases.com",
                   rText,
-                  "noreply@tulsa.center", [emailAddress],
+                  "noreply@zoningcases.com", [emailAddress],
                   fail_silently=False)
     if phoneNumber is not None:
         SendText(phoneNumber, rText)
