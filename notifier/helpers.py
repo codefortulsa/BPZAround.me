@@ -23,8 +23,25 @@ Flow:
 
 
 '''
+from django.core.mail import send_mail
+from twilio.rest import TwilioRestClient
 
 from notifier.models import *
+
+def getContact(phoneNumber="", emailAddress=""):
+    if (phoneNumber is not None) and (emailAddress is not None):
+        contact = ContactInfo.objects.get_or_create(phoneNumber=phoneNumber, email=emailAddress)
+
+    if (phoneNumber is None) and (emailAddress is not None):
+        contact = ContactInfo.objects.get_or_create(email=emailAddress)
+
+    if (phoneNumber is not None) and (emailAddress is None):
+        contact = ContactInfo.objects.get_or_create(phoneNumber=phoneNumber)
+
+    if contact is None:
+        return None
+    else:
+        return contact
 
 
 def requestURL(phoneNumber="", emailAddress=""):
@@ -35,21 +52,51 @@ def requestURL(phoneNumber="", emailAddress=""):
     :param emailAddress:
     :return:
     '''
-    #TODO: implent requestURL
-    # if both phoneNumber and emailAddress are blank, then throw an exception
+    contact = getContact(phoneNumber, emailAddress)
+
+    if contact is None:
+        return
+
+    contact.nonce = newNonce()
+    contact.save()
+
+    rText = "Change your settings: http://tulsa.center/change/%s"%contact.nonce
+    if emailAddress is not None:
+        send_mail("Change your settings on BPZAround.me",
+                  rText,
+                  "noreply@tulsa.center", [emailAddress],
+                  fail_silently=False)
+    if phoneNumber is not None:
+        SendText(phoneNumber, rText)
 
 
-def requestSubscription(longitude, latitude, phoneNumber="", emailAddress=""):
+
+def requestSubscription(longitude, latitude, sType, phoneNumber="", emailAddress=""):
     '''Create a subscription record by longitude and latitude with given phone or email
 
     :param longitude:
     :param latitude:
+    :param sType:
     :param phoneNumber:
     :param emailAddress:
     :return:
     '''
-    #TODO: implement requestSubscription()
+    # TODO: implement requestSubscription()
+    contact = getContact(phoneNumber, emailAddress)
 
+    if contact is None:
+        return
+
+    thisLocation = models.PointField()
+    thisLocation.srid = 4326
+    thisLocation.x = longitude
+    thisLocation.y = latitude
+    thisLocation.geography = True
+
+    subscription = Subscription(contactInfo=contact,
+                                subscriptionType=sType,
+                                geom=thisLocation)
+    subscription.save()
 
 
 def SendText(phone, smstext):
@@ -60,7 +107,7 @@ def SendText(phone, smstext):
     :param smstext:
     :return:
     '''
-    #TODO: implement SendText()
+    # TODO: implement SendText()
     client = TwilioRestClient(settings.TWILIO_SID, settings.TWILIO_AUTH)
 
     client.messages.create(
@@ -78,7 +125,7 @@ def doNotifications():
 
     :return:
     '''
-    #TODO: implement doNotifications()
+    # TODO: implement doNotifications()
     # check all notifications for nextNotification >= now
 
     #Set nextNotification to previous value plus default period (24 hours?)
