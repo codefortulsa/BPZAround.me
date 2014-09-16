@@ -1,4 +1,4 @@
-'''Notifier helper functions
+"""Notifier helper functions
 
 Flow:
 
@@ -22,21 +22,24 @@ Flow:
     (sendEmail not needed, since it is built into Django)
 
 
-'''
+"""
+
+from django.contrib.gis.measure import D
 from django.core.mail import send_mail
 from twilio.rest import TwilioRestClient
-
+from bpz.models import BOACase, TMAPCCase
 from notifier.models import *
 
-def getContact(phoneNumber="", emailAddress=""):
-    if (phoneNumber is not None) and (emailAddress is not None):
-        contact = ContactInfo.objects.get_or_create(phoneNumber=phoneNumber, email=emailAddress)
 
-    if (phoneNumber is None) and (emailAddress is not None):
-        contact = ContactInfo.objects.get_or_create(email=emailAddress)
+def getcontact(phonenumber="", emailaddress=""):
+    if (phonenumber is not None) and (emailaddress is not None):
+        contact = ContactInfo.objects.get_or_create(phoneNumber=phonenumber, email=emailaddress)
 
-    if (phoneNumber is not None) and (emailAddress is None):
-        contact = ContactInfo.objects.get_or_create(phoneNumber=phoneNumber)
+    if (phonenumber is None) and (emailaddress is not None):
+        contact = ContactInfo.objects.get_or_create(email=emailaddress)
+
+    if (phonenumber is not None) and (emailaddress is None):
+        contact = ContactInfo.objects.get_or_create(phoneNumber=phonenumber)
 
     if contact is None:
         return None
@@ -44,69 +47,68 @@ def getContact(phoneNumber="", emailAddress=""):
         return contact
 
 
-def requestURL(phoneNumber="", emailAddress=""):
-    '''Send the user a change URL with nonce to make changes or verify
+def requesturl(phonenumber="", emailaddress=""):
+    """Send the user a change URL with nonce to make changes or verify
 
     Look for the phone number / email in the contactinfo table and add if it isn't already there
-    :param phoneNumber:
-    :param emailAddress:
+    :param phonenumber:
+    :param emailaddress:
     :return:
-    '''
-    contact = getContact(phoneNumber, emailAddress)
+    """
+    contact = getcontact(phonenumber, emailaddress)
 
     if contact is None:
         return
 
-    contact.nonce = newNonce()
+    contact.nonce = newnonce()
     contact.save()
 
-    rText = "Change your settings: http://zoningcases.com/update/%s"%contact.nonce
-    if emailAddress is not None:
+    rtext = "Change your settings: http://zoningcases.com/update/%s" % contact.nonce
+    if emailaddress is not None:
         send_mail("Change your settings on zoningcases.com",
-                  rText,
-                  "noreply@zoningcases.com", [emailAddress],
+                  rtext,
+                  "noreply@zoningcases.com", [emailaddress],
                   fail_silently=False)
-    if phoneNumber is not None:
-        SendText(phoneNumber, rText)
+    if phonenumber is not None:
+        sendtext(phonenumber, rtext)
 
 
-
-def requestSubscription(longitude, latitude, sType, phoneNumber="", emailAddress=""):
-    '''Create a subscription record by longitude and latitude with given phone or email
+def requestsubscription(longitude, latitude, stype, phonenumber="", emailaddress=""):
+    """Create a subscription record by longitude and latitude with given phone or email
 
     :param longitude:
     :param latitude:
-    :param sType:
-    :param phoneNumber:
-    :param emailAddress:
+    :param stype:
+    :param phonenumber:
+    :param emailaddress:
     :return:
-    '''
+    """
     # TODO: implement requestSubscription()
-    contact = getContact(phoneNumber, emailAddress)
+    contact = getcontact(phonenumber, emailaddress)
 
     if contact is None:
         return
 
-    thisLocation = models.PointField()
-    thisLocation.srid = 4326
-    thisLocation.x = longitude
-    thisLocation.y = latitude
-    thisLocation.geography = True
+    thislocation = models.PointField()
+    thislocation.srid = 4326
+    thislocation.x = longitude
+    thislocation.y = latitude
+    thislocation.geography = True
 
     subscription = Subscription(contactInfo=contact,
-                                subscriptionType=sType,
-                                geom=thisLocation)
+                                subscriptionType=stype,
+                                geom=thislocation)
     subscription.save()
 
 
-def SendText(phone, smstext):
-    '''
+def sendtext(phone, smstext):
+    """
     Send a text message using twilio
 
     :param phone:
     :param smstext:
     :return:
-    '''
+    """
     # TODO: implement SendText()
     client = TwilioRestClient(settings.TWILIO_SID, settings.TWILIO_AUTH)
 
@@ -117,26 +119,53 @@ def SendText(phone, smstext):
     )
 
 
-def doNotifications():
-    '''Do all notifications
+def donotifications():
+    """Do all notifications
     Process all subscription records against geodata
     send email if provided
     send text if provided, acounting for rate limits
 
     :return:
-    '''
+    """
     # TODO: implement doNotifications()
-    # check all notifications for nextNotification >= now
 
-    #Set nextNotification to previous value plus default period (24 hours?)
+    smsmsg = ""
+    emailmsg = ""
 
-    #send email if available
+    subscriptionrecords = Subscription.objects.filter(nextNotification__gtq=datetime.now())
 
-    #if phone # available:
+    for subscriptionrecord in subscriptionrecords:
+        # if subscriptionRecord.subscriptionType == 'N':
+        # boaList = BOACase.objects.filter()
+        #we don't have date/time oriented info for neighborhood associations
 
-    #(rate limiting logic for SMS)
-    #if lastSMSSent is before today, reset NumSMSSentToday counter
-    #check NumSMSSentToday. If below threshhold
-    #increase NumSMSSentToday by 1
-    #Is the NumSMSSentToday>limit if so, append limit warning to outbound SMS msg
-    #send sms
+        #find everything for the upcoming x days
+        if subscriptionrecord.subscriptionType == 'A':
+            adjustmentrecords = BOACase.objects.filter(
+                geom__distance_lte=(subscriptionrecord.geom,
+                                    D(mi=subscriptionrecord.distance)))
+
+            #TODO add BOA records to email using jinja2 template & text
+
+        #find everything for the upcoming x days
+        elif subscriptionrecord.subscriptionType == 'T':
+            tmaprecords = TMAPCCase.objects.filter(
+                geom__distance_lte=(subscriptionrecord.geom,
+                                    D(mi=subscriptionrecord.distance)))
+
+            #TODO add TMAP records to email using jinja2 template & text
+
+        #Set nextNotification to previous value plus default period
+        subscriptionrecord.nextNotification = datetime.now() + datetime.timedelta(days=1)
+        subscriptionrecord.save()
+
+        #send email if available
+
+        #if phone # available:
+
+        #(rate limiting logic for SMS)
+        #if lastSMSSent is before today, reset NumSMSSentToday counter
+        #check NumSMSSentToday. If below threshhold
+        #increase NumSMSSentToday by 1
+        #Is the NumSMSSentToday>limit if so, append limit warning to outbound SMS msg
+        #send sms

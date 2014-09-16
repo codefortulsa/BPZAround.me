@@ -1,4 +1,4 @@
-'''Views for notifications
+"""Views for notifications
 
     change user info
         Check that nonce is correct, otherwise "unauthorized"
@@ -10,7 +10,7 @@
     incomingSMS
         Handle incoming SMS messages
 
-'''
+"""
 from twilio.rest import TwilioRestClient
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -24,14 +24,14 @@ class RequestContextMixin(object):
         return ctx
 
 
-def SendText(self, phone, smstext):
-    '''
+def sendtext(phone, smstext):
+    """
     Send a text message using twilio
 
     :param phone:
     :param smstext:
     :return:
-    '''
+    """
     client = TwilioRestClient(settings.TWILIO_SID, settings.TWILIO_AUTH)
 
     client.messages.create(
@@ -40,8 +40,9 @@ def SendText(self, phone, smstext):
         from_=settings.TWILIO_NUM
     )
 
-def changeSettings(request, nonce=""):
-    '''Use emailed or texted URL to modify settings
+
+def changesettings(request, nonce=""):
+    """Use emailed or texted URL to modify settings
     Check incoming nonce against email or SMS to allow settings to be changed
 
     This same URL is used to verify an email or a phone number.
@@ -51,16 +52,18 @@ def changeSettings(request, nonce=""):
 
     :param request:
     :return:
-    '''
+    """
 
-    #TODO: need some way to link an existing phone and a separate existing email into one record, but not a blocking issue
+    #TODO: need some way to link an existing phone and a separate existing email into one record,
+    # but not a blocking issue
     #TODO: implement user change view
 
-def incomingSMS(request):
-    '''
+
+def incomingsms(request):
+    """
     Handle incoming SMS message from twilio
     :param request:
     :return:
-    '''
+    """
 
     #TODO: handle incoming messages

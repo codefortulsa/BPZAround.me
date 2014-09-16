@@ -5,6 +5,6 @@ from .views import *
 
 urlpatterns = patterns(
     '',
-    url(r'$twiliosms&', 'notifier.views.incomingSMS'),
-    url(r'$update/(?P<nonce>.*)/', 'notifier.views.changeSettings'),
+    url(r'$twiliosms&', 'notifier.views.incomingsms'),
+    url(r'$update/(?P<nonce>.*)/', 'notifier.views.changesettings'),
 )
