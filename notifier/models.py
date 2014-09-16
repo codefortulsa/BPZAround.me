@@ -9,8 +9,6 @@ from django.contrib.gis.db import models
 from django.conf import settings
 
 
-
-
 @python_2_unicode_compatible
 def newNonce(self=None):
     '''
