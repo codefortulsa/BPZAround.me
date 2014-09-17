@@ -20,7 +20,8 @@ ul#case-list > li:hover {
 }
 
 ul#case-list > li:active {
-	
+	background-color: #428bca;
+	border: #428bca;
 }
 
 #btn-neighborhood {
