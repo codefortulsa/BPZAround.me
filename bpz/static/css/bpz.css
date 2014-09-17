@@ -3,7 +3,7 @@ body {
 }
 
 #map-canvas.active {
-  height:250px;
+  height:200px;
   width:100%;
 }
 

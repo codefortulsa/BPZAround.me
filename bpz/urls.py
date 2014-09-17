@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url, include
 from django.views.generic import TemplateView
 from rest_framework import routers
 
-from .views import CaseViewSet, HOAViewSet, cases, hoa
+from .views import CaseViewSet, HOAViewSet
 
 
 router = routers.DefaultRouter()
@@ -28,9 +28,11 @@ urlpatterns = patterns(
     url(r'^address',
         TemplateView.as_view(template_name='bpz/address.jinja2'),
         name='address'),
-
-
-    url(r'^cases', cases, name='cases'),
-    url(r'^hoa', hoa, name='home_owners'),
+    url(r'^cases',
+        TemplateView.as_view(template_name='bpz/cases.jinja2'),
+        name='cases'),
+    url(r'^hoa',
+        TemplateView.as_view(template_name='bpz/hoa.jinja2'),
+        name='hoa'),
 
 )
