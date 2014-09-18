@@ -16,8 +16,10 @@
     </form>
   </div><!--end col -->
     <div class="btn-group">
-      <button id="use_address" type="button" class="btn btn-primary btn-block">Use this address</button>
-      <button id="use_gps" type="button" class="btn btn-success btn-block">Use my GPS</button>
+      <button id="use_address" type="button" class="btn btn-primary btn-block">Use this address </button>
+      <button id="use_gps" type="button" class="btn btn-success btn-block">Use my GPS
+        <span id="spinner" class="glyphicon glyphicon-refresh hidden"></span>
+      </button>
     </div>
   
 </div><!--end row -->
@@ -49,7 +51,7 @@
     }
   }); //end doc ready 
 
-  $("#use_address").on("click",function () {    
+  $("#use_address").on("click",function () {
     addr={street:$('#streetAddress').val(),zip:$('#zipCode').val()}
     bpz.stored.streetAddress=addr    
     st = addr.street ? addr.street : ""
@@ -61,7 +63,8 @@
   
   $("#use_gps").on("click",function () {
     var gps_location =  new Location();
-    
+    d3.select("#spinner").classed("hidden",false)
+    d3.select("#spinner").classed("spin",true)
     gps_location.ready
         .done(function () {
           bpz.stored.currentLatLng=gps_location.pos;
