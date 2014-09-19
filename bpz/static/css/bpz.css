@@ -1,5 +1,7 @@
 body {
 	padding-top: 70px;
+  overflow:scroll;
+  position:relative;
 }
 
 #map-canvas.active {
@@ -9,6 +11,16 @@ body {
 
 ul#case-list {
   overflow:scroll;
+  top:'300px'
+}
+
+ul#case-list > li:hover {
+	background-color: #f5f5f5;
+}
+
+ul#case-list > li:active {
+	background-color: #428bca;
+	border: #428bca;
 }
 
 #btn-neighborhood {
@@ -19,6 +31,10 @@ ul#case-list {
 	height: 350px;
 	position: relative;
 	overflow: auto;
+}
+
+.row-buffer {
+	margin-top: 20px;
 }
 
 .spin{
