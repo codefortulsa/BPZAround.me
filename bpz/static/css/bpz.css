@@ -43,6 +43,10 @@ ul#case-list > li:active {
 	.list-group-item {
 		padding: 5px 10px;
 	}
+	
+	.btn {
+		font-size: 12px;
+	}
 }
 
 .scroll-area {
