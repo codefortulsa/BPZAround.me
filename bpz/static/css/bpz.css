@@ -24,7 +24,7 @@ ul#case-list > li:active {
 }
 
 #btn-neighborhood {
-  font-size:2em;
+	font-size:2em;
 }
 
 .scroll-area {
@@ -72,3 +72,4 @@ ul#case-list > li:active {
   to {
     transform: rotate(360deg);
   }
+
