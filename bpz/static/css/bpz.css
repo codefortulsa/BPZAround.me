@@ -23,8 +23,11 @@ ul#case-list > li:active {
 	border: #428bca;
 }
 
-#btn-neighborhood {
-	font-size:2em;
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 760px) { 
+	#btn-neighborhood {
+		font-size:2em;
+	}
 }
 
 .scroll-area {
