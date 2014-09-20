@@ -35,7 +35,7 @@ DJANGO_ROOT = dirname(dirname(abspath(__file__)))
 SITE_NAME = basename(DJANGO_ROOT)
 path.append(DJANGO_ROOT)
 
-DEBUG = environ.get("DJANGO_DEBUG", '1') in (1, '1')
+DEBUG = environ.get("DJANGO_DEBUG", '0') in (1, '1')
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
