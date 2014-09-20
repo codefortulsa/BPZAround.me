@@ -2,7 +2,91 @@
 
 
 {% block body_container -%}
-  <div class="container">
-    <p> ADDRESS FORM HERE</p>
-  </div>
-  {% endblock body_container %}
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
+    <form role="form">
+      <div class="form-group">
+        <label for="streetAddress">Street Address</label> <input type="email" class="form-control" id="streetAddress" placeholder="e.g. 123 South Euclid, Tulsa OK">
+      </div>
+      <div class="form-group">
+        <p class="form-control-static">
+          <input type="emaizipcodel" class="form-control" id="zipCode" placeholder="zip code ...">
+        </p>
+      </div>
+    </form>
+
+    <div class="btn-group">
+      <button id="use_address" type="button" class="btn btn-primary btn-block">Use this address</button> <button id="use_gps" type="button" class="btn btn-success btn-block">Use my GPS <span id="spinner" class="glyphicon glyphicon-refresh hidden"></span></button>
+    </div>
+    <div id="geocode_error" class="hidden">
+      <div class="alert-warning" role="alert">
+        Sorry. We could not find this address.
+      </div>
+    </div>
+    <div id="gps_error" class="hidden">
+      <div class="alert-info" role="alert">
+        Sorry. You have not allowed us to use your GPS. You'll need to clear your browser settings.
+      </div>
+    </div>
+    
+    
+  </div><!--end col -->
+  
+</div><!--end row -->
+    
+{% endblock body_container %}
+  
+{% block body_js -%}
+
+<script>
+
+  d3.select("#map-canvas").classed("active",false)
+
+  jQuery(document).ready(function () {
+    var addr = bpz.stored.streetAddress;
+  
+    if (addr){
+      if (addr.street){
+        $('#streetAddress').val(addr.street)
+      }
+      if(addr.zip){
+        $('#zipCode').val(addr.zip)
+      }
+    }
+  }); //end doc ready 
+
+  $("#use_address").on("click",function () {
+    addr={street:$('#streetAddress').val(),zip:$('#zipCode').val()}
+    bpz.stored.streetAddress=addr    
+    st = addr.street ? addr.street : ""
+    
+    bpz.geocoder.query(st+addr.zip,function (err,data) {
+      if (data === undefined) {
+        $("#geocode_error").removeClass("hidden");
+        return;        
+      }
+      bpz.stored.currentLatLng = data.latlng
+      window.location.href = "/cases"
+       bpz.stored.currentLatLng = data.latlng
+       window.location.href = "/cases"
+    })
+  });
+  
+  $("#use_gps").on("click",function () {
+    var gps_location =  new Location();
+    d3.select("#spinner").classed("hidden",false)
+    d3.select("#spinner").classed("spin",true)
+    gps_location.ready
+        .done(function () {
+          bpz.stored.currentLatLng=gps_location.pos;
+          window.location.href = "/cases"
+        })
+        .fail(function (err) {
+          if (err.code===1){
+            $("#gps_error").removeClass("hidden");
+          } 
+        });
+  });
+  
+</script>
+{%- endblock body_js %} 

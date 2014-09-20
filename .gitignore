@@ -44,3 +44,6 @@ docs/_build
 
 # Collected staticfiles
 staticfiles
+
+# OSX
+.DS_Store

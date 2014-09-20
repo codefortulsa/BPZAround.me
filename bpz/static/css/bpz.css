@@ -5,14 +5,13 @@ body {
 }
 
 #map-canvas.active {
-  height:250px;
+  height:200px;
   width:100%;
 }
 
-
 ul#case-list {
   overflow:scroll;
-  top:'300px';
+  top:'300px'
 }
 
 ul#case-list > li:hover {
@@ -28,10 +27,6 @@ ul#case-list > li:active {
   font-size:2em;
 }
 
-.case-path{
- fill:blue; 
-}
-
 .scroll-area {
 	height: 350px;
 	position: relative;
@@ -42,4 +37,38 @@ ul#case-list > li:active {
 	margin-top: 20px;
 }
 
+.spin{
+     -webkit-transform-origin: 50% 58%;
+     transform-origin:50% 58%;
+     -ms-transform-origin:50% 58%; /* IE 9 */
+     -webkit-animation: spin 1.2s infinite linear;
+     -moz-animation: spin 1.2s infinite linear;
+     -o-animation: spin 1.2s infinite linear;
+     animation: spin 1.2s infinite linear;
+}
 
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }

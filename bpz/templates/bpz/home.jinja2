@@ -10,14 +10,28 @@
       <p class="lead"> The Neighborhood Plugin is a great way to help Tulsan's find their nearest neighborhood association and learn about pending zoning and planning cases in their area.  If you live in Tulsa and want to become more involved in your community, then all you need to do is provide your location to get started.  <a href="/about">Learn More&#62;&#62;</a> </p>
     </div>
   </div>
-</div>
+  
+  <!-- TODO:  Create a button that goes to the address page without using javascript -->
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
+      <a href="/address" class="btn btn-primary btn-block" id="btn-neighborhood">Look up your address
+      <span class="glyphicon glyphicon-map-marker"></span>
+      </a>
+    </div>
+
+  </div>
+</div><!-- /.container -->
 
 {% endblock %}
 
 {% block body_js -%}
 <script>
 jQuery(document).ready(function () {
-  bpz.activateMap()
+  $("#enter_address").on("click",function () {
+    window.location.href = "/address"
+  })  
+  bpz.activateMap()    
 })  
 </script>
 {%- endblock body_js %}
