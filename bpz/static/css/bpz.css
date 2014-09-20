@@ -36,6 +36,10 @@ ul#case-list > li:active {
 	overflow: auto;
 }
 
+.alert{
+	margin-top: 10px;
+}
+
 .row-buffer {
 	margin-top: 20px;
 }
