@@ -1,20 +1,4 @@
 
-
-
-var menu = document.querySelector('.nav');
-var navElements = menu.getElementsByTagName('li');
-
-for (var i = 0; i < navElements.length; i += 1) {
-  navElements[i].addEventListener('click', function() { clickHandler(navElements[i]) }, false);
-}
-
-function clickHandler(anchor) {
-  var hasClass = navElements.getAttribute('class');
-  if (hasClass !== 'active') {
-   	navElements.setAttribute('class', 'active');
-  }
-}
-
 function Location() {
   var  dfd = new $.Deferred(),
     _pos ={},

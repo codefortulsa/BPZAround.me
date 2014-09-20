@@ -30,6 +30,21 @@ ul#case-list > li:active {
 	}
 }
 
+@media (max-width: 760px) {
+	.panel {
+		font-size: 10px;
+	}
+	
+	.media-object {
+		width: 30px;
+		height: 30px;
+	}
+	
+	.list-group-item {
+		padding: 5px 10px;
+	}
+}
+
 .scroll-area {
 	height: 350px;
 	position: relative;
