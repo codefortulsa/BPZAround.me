@@ -35,11 +35,6 @@ ul#case-list > li:active {
 		font-size: 10px;
 	}
 	
-	.media-object {
-		width: 30px;
-		height: 30px;
-	}
-	
 	.list-group-item {
 		padding: 5px 10px;
 	}
