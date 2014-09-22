@@ -92,7 +92,8 @@ var bpz = {
   },
   activateMap: function () {
     d3.select("#map-canvas").classed("active",true);
-    bpz.map.setView(bpz.stored.currentLatLng);
+    var cL = bpz.stored.currentLatLng || [36.1587336,-95.9940543]
+    bpz.map.setView(cL);
     bpz.map.setZoom(14);
   },
   layers: {
