@@ -45,7 +45,7 @@ function Location() {
 
   pos_desc = Object.getOwnPropertyDescriptor(this, 'pos');
 
-  WatchID = navigator.geolocation.watchPosition(pos_desc.set, fail, options);
+  WatchID = navigator.geolocation.getCurrentPosition(pos_desc.set, fail, options);
 
   this.ready = dfd.promise()
 
