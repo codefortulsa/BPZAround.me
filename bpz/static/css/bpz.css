@@ -23,14 +23,35 @@ ul#case-list > li:active {
 	border: #428bca;
 }
 
-#btn-neighborhood {
-  font-size:2em;
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 760px) { 
+	#btn-neighborhood {
+		font-size:2em;
+	}
+}
+
+@media (max-width: 760px) {
+	.panel {
+		font-size: 10px;
+	}
+	
+	.list-group-item {
+		padding: 5px 10px;
+	}
+	
+	.btn {
+		font-size: 12px;
+	}
 }
 
 .scroll-area {
 	height: 350px;
 	position: relative;
 	overflow: auto;
+}
+
+.alert{
+	margin-top: 10px;
 }
 
 .row-buffer {
@@ -72,3 +93,4 @@ ul#case-list > li:active {
   to {
     transform: rotate(360deg);
   }
+
