@@ -45,7 +45,7 @@ function Location() {
 
   pos_desc = Object.getOwnPropertyDescriptor(this, 'pos');
 
-  WatchID = navigator.geolocation.watchPosition(pos_desc.set, fail, options);
+  WatchID = navigator.geolocation.getCurrentPosition(pos_desc.set, fail, options);
 
   this.ready = dfd.promise()
 
@@ -92,7 +92,8 @@ var bpz = {
   },
   activateMap: function () {
     d3.select("#map-canvas").classed("active",true);
-    bpz.map.setView(bpz.stored.currentLatLng);
+    var cL = bpz.stored.currentLatLng || [36.1587336,-95.9940543]
+    bpz.map.setView(cL);
     bpz.map.setZoom(14);
   },
   layers: {
